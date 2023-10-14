@@ -1,0 +1,21 @@
+{% extends './base.html' %}
+
+{% block title %}En desarrollo...{% endblock %}
+
+{% block body %}
+
+<div class="cuerpo-accounts">
+    <div class="vidrio-blur mt-5 p-5">
+        <div class="text-center">
+            <h1>Lo sentimos ☹️</h1>
+            </br>
+            <p>La función a la cual desea acceder, se encuentra en desarrollo.</p>
+            <p>Agradecemos su paciencia.</p>
+        </div>
+    </div>
+    <div class="mt-5 text-center">
+        <a class="btn btn-success border border-black rounded" href="{% url 'inicio' %}">Volver a Inicio</a>
+    </div>
+</div>
+
+{% endblock %}

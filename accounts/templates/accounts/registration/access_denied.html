@@ -1,0 +1,20 @@
+{% extends 'accounts/base.html' %}
+
+{% block title %}Acceso denegado{% endblock %}
+
+{% block content %}
+
+<div class="cuerpo-accounts">
+    <div class="vidrio-blur mt-5 p-5">
+        <div class="text-center">
+            <h1>Acceso denegado 🚫</h1> <!--✋🏽-->
+            </br>
+            <p>No posee los permisos necesarios para realizar esta acción.</p>
+        </div>
+    </div>
+    <div class="mt-5 text-center">
+        <a class="btn btn-success border border-black rounded" href="{% url 'inicio' %}">Volver a Inicio</a>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends './base.html' %}
+
+{% block title %}Inicio - Sistema Control Docente{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+<div class="vidrio-blur p-3">
+    {% if user.is_authenticated %}
+        <h1>{{saludo}}, {{ user.username }}</h1>
+    {% else %}
+        <h1>{{saludo}}</h1>
+        <p>Por favor, inicie sesión.</p>
+    {% endif %}
+</div>
+
+{% endblock %}

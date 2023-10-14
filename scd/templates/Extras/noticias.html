@@ -1,0 +1,101 @@
+{% extends './base.html' %}
+
+{% load static %}
+
+{% block title %}Noticias{% endblock %}
+
+{% block body %}
+
+<div class="row">
+    <div class="col-9">
+        <div class="card"> <!--vidrio-blur-->
+            <div class="text-center ">
+                <h3>Noticias actuales</h3>
+            </div>
+            <div class="scroll-box">
+                <div class="card-group justify-content-around">
+                    {% for noticia in noticias %}
+                        <!--
+                            cada noticia contiene:
+                                titulo, enlace, descripcion, fecha_publicacion, imagen, descripcion_imagen, 
+                        -->
+                        <div class="col-3 mx-1">
+                            <div class="card mb-5">
+                                {% if noticia.imagen %} 
+                                    <img src="{{ noticia.imagen }}" class="card-img-top imagen-noticia" alt="{{ noticia.descripcion_imagen }}"> <!-- type="image/png" height="100" width="200"-->
+                                {% else %}
+                                    <img src="{% static 'img/logo_escuela.png' %}" class="card-img-top imagen-noticia" alt="Logo ETN°6">
+                                {% endif %}
+                                <div class="card-body txt-centrado">
+                                    <h5 class="card-title">{{ noticia.titulo }}</h5>
+                                </div>
+                                <div class="card-footer card-footer-noticia">
+                                    <a class="btn btn-secondary btn-sm" href="{{noticia.enlace}}" target="_blank">Original</a>
+                                    <button type="button" class="btn btn-primary btn-sm border border-dark" data-bs-toggle="modal" data-bs-target="#exampleModal{{forloop.counter}}">
+                                        Leer
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable modal-xl"> <!--lg-->
+                                <div class="modal-content bg-whitesmoke">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="exampleModalLabel">{{noticia.titulo}}</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="cuerpo-noticia txt-justificado"> <!--txt-centrado-->
+                                            {{noticia.descripcion | safe}}
+                                        </div>
+                                    </div>
+                                    <!--<div class="modal-footer justify-content-around">
+                                        <button type="button" class="btn btn-primary px-5" data-bs-dismiss="modal">Cerrar</button>
+                                    </div>-->
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- HOROSCOPO -->
+    <div class="col-3">
+        <div class="card"> <!--vidrio-blur-->
+            <div class="p-2 text-center">
+                <h5>Horoscopo diario</h5>
+            </div>
+            <div class="scroll-box">
+                <div class="accordion" id="#accordionHoroscopo">
+                    {% for horoscopo in horoscopos %}
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse"  aria-expanded="false" data-bs-target="#collapse{{forloop.counter}}" aria-controls="collapse{{forloop.counter}}"> <!--data-bs-target="#collapseOne" aria-controls="collapseOne"-->
+                                    <strong>{{ horoscopo.signo }}</strong>
+                                </button>
+                            </h2>
+                            <div class="accordion-collapse collapse show" id="collapse{{forloop.counter}}" data-bs-parent="#accordionHoroscopo"> <!--id="collapseOne" data-bs-parent="#accordionExample"-->
+                                <div class="accordion-body">
+                                    <p>Del {{ horoscopo.fecha }}</p>
+                                    <p><b>Piedra:</b> {{ horoscopo.piedra }}</p>
+                                    <p><b>Elemento:</b> {{ horoscopo.elemento }}</p>
+                                    <p><b>Astro:</b> {{ horoscopo.astro }}</p>
+                                    <p><b>Amor y relaciones:</b> {{ horoscopo.frase_amor }}</p>
+                                    <p><b>Trabajo y carrera:</b> {{ horoscopo.frase_trabajo }}</p>
+                                    <p><b>Dinero y finanzas:</b> {{ horoscopo.frase_dinero }}</p>
+                                    <p><b>Salud y bienestar:</b> {{ horoscopo.frase_salud }}</p>
+                                    <p><b>Número de la suerte:</b> {{ horoscopo.numero }}</p>
+                                    <p><b>Frase del día:</b><br><i>"{{ horoscopo.mensaje }}"</i></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

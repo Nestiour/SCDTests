@@ -1,0 +1,47 @@
+{% extends "./base.html" %}
+
+{% block title %}Editar Asociación{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4 py-3">
+        <div class="text-center">
+            <h2>Edición de datos</h2>
+        </div>
+        <div class="card vidrio-blur">
+            <div class="card-body">
+                <form action="{% url 'editarDM' %}" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="number" id="id_dm" name="id_dm" class="form-control-plaintext text-center" value="{{DM.id_dm}}" readonly>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA DOCENTES-->
+                        <select class="form-select" aria-label="Default select example" id="id_doc" name="id_doc">
+                            <option value="{{d.id_doc}}" selected>Seleccionado: {{d.apellido}} {{d.nombre}} - CUIL: {{d.cuil}}</option>
+                            {% for d in docentes %}
+                                <option value="{{d.id_doc}}">{{d.apellido}} {{d.nombre}} - CUIL: {{d.cuil}}</option>    
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA MATERIAS-->
+                        <select class="form-select" aria-label="Default select example" id="id_mat" name="id_mat">
+                            <option value="{{m.id_mat}}" selected>Seleccionado: {{m.nombre}}</option>
+                            {% for m in materias %}
+                                <option value="{{m.id_mat}}">{{m.nombre}}</option>    
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!--BOTONES-->
+                    <div class="d-grid gap-2 py-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            💾 Guardar cambios
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-dark mt-3" href="{% url 'gestionDM' %}">⬅️ Descartar cambios y regresar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

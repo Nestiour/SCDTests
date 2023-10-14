@@ -1,0 +1,96 @@
+{% extends "./base.html" %}
+
+{% block title %}Editar Docente{% endblock %}
+ 
+{% block body %}
+
+<div class="row">
+    <div class="col-md-4 offset-md-4 py-3">
+        <div class="text-center">
+            <h2>Edición de datos</h2>
+        </div>
+        <div class="card vidrio-blur">
+            <div class="card-body">
+                <form action="{% url 'editarDocente' %}" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="number" id="id_doc" name="id_doc" class="form-control-plaintext text-center" value="{{docente.id_doc}}" readonly>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="number" autocomplete="off" id="cuil" name="cuil" value="{{docente.cuil}}" class="form-control" placeholder="N° de CUIL" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" required>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="text" autocomplete="off" id="apellido" name="apellido" value="{{docente.apellido}}" class="form-control" placeholder="Apellido" minlength="2" maxlength="30" required>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="text" autocomplete="off" id="nombre" name="nombre" value="{{docente.nombre}}" class="form-control" placeholder="Nombre" minlength="2" maxlength="45" required>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA GENERO-->
+                        <select class="form-select" aria-label="Default select example" id="genero" name="genero">
+                            <option value="{{docente.genero}}" selected>Seleccionado: {{docente.genero}}</option>
+                            <option value="F">Género: F (Femenino)</option>
+                            <option value="M">Género: M (Masculino)</option>
+                            <option value="X">Género: X (Otro)</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="number" autocomplete="off" id="celular" name="celular" value="{{docente.celular}}" class="form-control" placeholder="Celular" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15" required>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="text" autocomplete="off" id="email" name="email" value="{{docente.email}}" class="form-control" placeholder="Email" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="40" required>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="text" autocomplete="off" id="domicilio" name="domicilio" value="{{docente.domicilio}}" class="form-control" placeholder="Domicilio" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="40" required>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="text" autocomplete="off" id="localidad" name="localidad" value="{{docente.localidad}}" class="form-control" placeholder="Localidad" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="30" required>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA PROVINCIAS-->
+                        <select class="form-select" aria-label="Default select example" id="provincia" name="provincia">
+                            <option value="{{docente.provincia}}" selected>Seleccionado: {{docente.provincia}}</option>
+                            <option value="Buenos Aires">Buenos Aires</option>
+                            <option value="Catamarca">Catamarca</option>
+                            <option value="Chaco">Chaco</option>
+                            <option value="Chubut">Chubut</option>
+                            <option value="Córdoba">Córdoba</option>
+                            <option value="Corrientes">Corrientes</option>
+                            <option value="Entre Ríos">Entre Ríos</option>
+                            <option value="Formosa">Formosa</option>
+                            <option value="Jujuy">Jujuy</option>
+                            <option value="La Pampa">La Pampa</option>
+                            <option value="La Rioja">La Rioja</option>
+                            <option value="Mendoza">Mendoza</option>
+                            <option value="Misiones">Misiones</option>
+                            <option value="Neuquén">Neuquén</option>
+                            <option value="Río Negro">Río Negro</option>
+                            <option value="Salta">Salta</option>
+                            <option value="San Juan">San Juan</option>
+                            <option value="San Luis">San Luis</option>
+                            <option value="Santa Cruz">Santa Cruz</option>
+                            <option value="Santa Fe">Santa Fe</option>
+                            <option value="Santiago del Estero">Santiago del Estero</option>
+                            <option value="Tierra del Fuego">Tierra del Fuego</option>
+                            <option value="Tucumán">Tucumán</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA ESTADO-->
+                        <select class="form-select" aria-label="Default select example" id="estado" name="estado">
+                            <option value="{{docente.estado}}" selected>Seleccionado: {{docente.estado}}</option>
+                            <option value="A">Estado: Activo (A)</option>
+                            <option value="I">Inactivo (I)</option>
+                        </select>
+                    </div>
+                    <!--BOTONES-->
+                    <div class="d-grid gap-2 py-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            💾 Guardar cambios
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-dark mt-3" href="{% url 'gestionDocente' %}">⬅️ Descartar cambios y regresar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>  
+{% endblock %}

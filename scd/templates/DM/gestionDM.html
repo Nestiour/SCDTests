@@ -1,0 +1,145 @@
+{% extends "./base.html" %}
+
+{% block title %}Materias de Docentes{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+    <script src="{% static 'js/eliminar.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <!--Menu desplegable del formulario-->
+        <button type="button" class="btn btn-success boton-registrar border-dark" data-bs-toggle="modal" data-bs-target="#ModalFormulario">
+            ➕ Asociar Materia a Docente
+        </button>
+        <!--formulario de registro de datos-->
+        <div class="modal fade" id="ModalFormulario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content vidrio-blur">
+                    <div class="modal-header">
+                        <h4 class="modal-title fs-5" id="exampleModalLabel">Asociar:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                <form action="{% url 'registrarDM' %}" method="POST">{% csrf_token %}
+                    <div class="form-group mb-1"> <!--LISTA DOCENTES-->
+                        <select class="form-select" aria-label="Default select example" id="id_doc" name="id_doc">
+                            <option value="" selected disabled>Seleccione un Docente</option>
+                            {% for d in docentes %}
+                                <option value="{{d.id_doc}}">{{d.apellido | upper }} {{d.nombre}} - CUIL: {{d.cuil}}</option>    
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA MATERIAS-->
+                        <select class="form-select" aria-label="Default select example" id="id_mat" name="id_mat">
+                            <option value="" selected disabled>Seleccione una Materia</option>
+                            {% for m in materias %}
+                                <option value="{{m.id_mat}}">{{m.nombre}}</option>    
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            ➕ Registrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="">
+    <div class="row">
+        <div class="col mb-3">
+            <h1>Materias y su Docente:</h1>
+        </div>
+        <div class="col"> <!--VISUALIZACION MENSAJES-->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="table-responsive"> <!--COMIENZO TABLA-->
+        <div class="scroll-box">
+            <table class="table table-striped">
+                <thead>
+                     <tr>
+                        <th class="col txt-datos">#</th>
+                        <th class="col txt-datos" hidden>ID Asociación</th>
+                        <th class="col txt-datos" hidden>ID Docente</th>
+                        <th class="col txt-datos">Docente</th>
+                        <th class="col txt-datos">CUIL</th>
+                        <th class="col txt-datos" hidden>ID Materia</th>
+                        <th class="col txt-datos">Materia</th>
+                        <th class="col txt-datos">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider border-light">
+                    {% for dm in DMs %}
+                    <tr>
+                        <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
+                        <td class="txt-datos txt-centrado" hidden>{{dm.id_dm}}</td>
+                        <td class="txt-datos txt-centrado" hidden>{{dm.id_doc.id_doc}}</td>
+                        <td class="txt-datos">{{dm.id_doc.apellido | upper}}, {{dm.id_doc.nombre}}</td>
+                        <td class="txt-datos txt-centrado">{{dm.id_doc.cuil}}</td>
+                        <td class="txt-datos txt-centrado" hidden>{{dm.id_mat.id_mat}}</td>
+                        <td class="txt-datos">{{dm.id_mat.nombre}}</td>
+                        <td class="txt-centrado">
+                            <div class="btn-group dropstart">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu text-center cuerpo-menu-opciones">
+                                    <li><a href="/edicionDM/{{dm.id_dm}}" class="mb-1 dropdown-item bg-primary text-light">
+                                            Modificar
+                                        </a>
+                                    </li>
+                                    <!-- Button trigger modal Eliminar -->
+                                    <li><button type="button" class="dropdown-item bg-danger text-light" data-bs-toggle="modal" data-bs-target="#exampleModal{{dm.id_dm}}">
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{dm.id_dm}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content bg-whitesmoke">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="txt-centrado">
+                                    <p>Esta acción no se puede deshacer.
+                                    <br>
+                                    ¿Está segur@ de <u>eliminar</u> esta Asociación?
+                                    <br><!--<br>
+                                    "<strong>{{m.nombre}}</strong>"</p>-->
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-around">
+                                    <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">No</button>
+                                    <a href="/eliminarDM/{{dm.id_dm}}" class="btn btn-danger">Si</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

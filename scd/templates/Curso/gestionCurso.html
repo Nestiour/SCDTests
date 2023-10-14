@@ -1,0 +1,152 @@
+{% extends "./base.html" %}
+
+{% block title %}Gestion de Cursos{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+    <script src="{% static 'js/eliminar.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <!--Menu desplegable del formulario-->
+        <button type="button" class="btn btn-success boton-registrar border-dark" data-bs-toggle="modal" data-bs-target="#ModalFormulario">
+            ➕ Registrar nuevo Curso
+        </button>
+        <!--formulario de registro de datos-->
+        <div class="modal fade" id="ModalFormulario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content vidrio-blur">
+                    <div class="modal-header">
+                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Curso:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                <form action="{% url 'registrarCurso' %}" method="POST">{% csrf_token %}
+                    <div class="form-group mb-1">
+                        <input type="number" autocomplete="off" id="anio" name="anio" class="form-control" placeholder="Año nro." oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="1" required>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="number" autocomplete="off" id="division" name="division" class="form-control" placeholder="División nro." oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="1" required>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA TURNO-->
+                        <select class="form-select" aria-label="Default select example" id="turno" name="turno">
+                            <option value="" selected disabled>Seleccione un Turno</option>
+                            <option value="Mañana">Mañana</option>
+                            <option value="Tarde">Tarde</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA ESPECIALIDAD-->
+                        <select class="form-select" aria-label="Default select example" id="especialidad" name="especialidad">
+                            <option value="" selected disabled>Seleccione una Especialidad</option>
+                            <option value="Básico">Básico</option>
+                            <option value="Informática">Informática</option>
+                            <option value="Economía">Economía</option>
+                        </select>
+                    </div>
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            ➕ Registrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="">
+    <div class="row">
+        <div class="col mb-3">
+            <h1>Cursos registrados:</h1>
+        </div>
+        <div class="col"> <!--VISUALIZACION MENSAJES-->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="table-responsive"> <!--COMIENZO TABLA-->
+        <div class="scroll-box">
+            <table class="table table-striped">
+                <thead>
+                     <tr>
+                        <th class="col txt-datos">#</th>
+                        <th class="col txt-datos" hidden>ID Curso</th>
+                        <th class="col txt-datos">Año</th>
+                        <th class="col txt-datos">División</th>
+                        <th class="col txt-datos">Turno</th>
+                        <th class="col txt-datos">Especialidad</th>
+                        <th class="col txt-datos">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider border-light">
+                    {% for c in cursos %}
+                    <tr>
+                        <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
+                        <td class="txt-datos txt-centrado" hidden>{{c.id_cur}}</td>
+                        <td class="txt-datos txt-centrado">{{c.anio}}°</td>
+                        <td class="txt-datos txt-centrado">{{c.division}}°</td>
+                        <td class="txt-datos txt-centrado">{{c.turno}}</td>
+                        <td class="txt-datos txt-centrado">{{c.especialidad}}</td>
+                        <td class="txt-centrado">
+                            <div class="btn-group dropstart">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu text-center cuerpo-menu-opciones">
+                                    <li><a href="/edicionCurso/{{c.id_cur}}" class="mb-1 dropdown-item bg-primary text-light">
+                                            Modificar
+                                        </a>
+                                    </li>
+                                    <!-- Button trigger modal Eliminar -->
+                                    <li><button type="button" class="mb-1 dropdown-item bg-danger text-light" data-bs-toggle="modal" data-bs-target="#exampleModal{{c.id_cur}}">
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                    <!-- redireccionar a Horario, Docente, Materia -->
+                                    <li><a href="#" class="mb-1 dropdown-item bg-secondary text-light">Ir a Horario</a></li>
+                                    <li><a href="#" class="mb-1 dropdown-item bg-secondary text-light">Ir a Docente</a></li>
+                                    <li><a href="#" class="dropdown-item bg-secondary text-light">Ir a Materia</a></li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{c.id_cur}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content bg-whitesmoke">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="txt-centrado">
+                                    <p>Esta acción no se puede deshacer.
+                                    <br>
+                                    ¿Está segur@ de <u>eliminar</u> este Curso?
+                                    <br><br>
+                                    "<strong>{{c.anio}}° {{c.division}}° {{c.especialidad}}, Turno: {{c.turno}}</strong>"</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-around">
+                                    <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">No</button>
+                                    <a href="/eliminarCurso/{{c.id_cur}}" class="btn btn-danger">Si</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

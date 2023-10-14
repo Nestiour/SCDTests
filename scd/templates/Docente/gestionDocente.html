@@ -1,0 +1,219 @@
+{% extends "./base.html" %}
+
+{% block title %}Gestion de Docentes{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+    <script src="{% static 'js/buscarDocente.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <!--Menu desplegable del formulario-->
+        <button type="button" class="btn btn-success boton-registrar border-dark" data-bs-toggle="modal" data-bs-target="#ModalFormulario">
+            ➕ Registrar nuevo Docente
+        </button>
+        <!--formulario de registro de datos-->
+        <div class="modal fade" id="ModalFormulario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content vidrio-blur">
+                    <div class="modal-header">
+                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Docente:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+            <form action="{% url 'registrarDocente' %}" method="POST">{% csrf_token %}
+                <div class="form-group mb-1">
+                    <input type="number" autocomplete="off" id="cuil" name="cuil" class="form-control" placeholder="N° de CUIL" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="12" required>
+                </div>
+                <div class="form-group mb-1">
+                    <input type="text" autocomplete="off" id="apellido" name="apellido" class="form-control" placeholder="Apellido" minlength="2" maxlength="30" required>
+                </div>
+                <div class="form-group mb-1">
+                    <input type="text" autocomplete="off" id="nombre" name="nombre" class="form-control" placeholder="Nombre" minlength="2" maxlength="45" required>
+                </div>
+                <div class="form-group mb-1"> <!--LISTA GENERO-->
+                    <select class="form-select" aria-label="Default select example" id="genero" name="genero">
+                        <option value="F" selected>Género: F (Femenino)</option>
+                        <option value="M"> M (Masculino)</option>
+                        <option value="X">X (Otro)</option>
+                    </select>
+                </div>
+                <div class="form-group mb-1">
+                    <input type="number" autocomplete="off" id="celular" name="celular" class="form-control" placeholder="Celular" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="15" required>
+                </div>
+                <div class="form-group mb-1">
+                    <input type="email" autocomplete="off" id="email" name="email" class="form-control" placeholder="Email" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="40" required>
+                </div>
+                <div class="form-group mb-1">
+                    <input type="text" autocomplete="off" id="domicilio" name="domicilio" class="form-control" placeholder="Domicilio" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="40" required>
+                </div>
+                <div class="form-group mb-1">
+                    <input type="text" autocomplete="off" id="localidad" name="localidad" class="form-control" placeholder="Localidad" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="30" required>
+                </div>
+                <div class="form-group mb-1"> <!--LISTA PROVINCIAS-->
+                    <select class="form-select" aria-label="Default select example" id="provincia" name="provincia">
+                        <option value="Buenos Aires">Buenos Aires</option>
+                        <option value="Catamarca">Catamarca</option>
+                        <option value="Chaco">Chaco</option>
+                        <option value="Chubut">Chubut</option>
+                        <option value="Córdoba">Córdoba</option>
+                        <option value="Corrientes">Corrientes</option>
+                        <option value="Entre Ríos">Entre Ríos</option>
+                        <option value="Formosa">Formosa</option>
+                        <option value="Jujuy">Jujuy</option>
+                        <option value="La Pampa">La Pampa</option>
+                        <option value="La Rioja">La Rioja</option>
+                        <option value="Mendoza">Mendoza</option>
+                        <option value="Misiones">Misiones</option>
+                        <option value="Neuquén">Neuquén</option>
+                        <option value="Río Negro">Río Negro</option>
+                        <option value="Salta">Salta</option>
+                        <option value="San Juan">San Juan</option>
+                        <option value="San Luis">San Luis</option>
+                        <option value="Santa Cruz">Santa Cruz</option>
+                        <option value="Santa Fe">Santa Fe</option>
+                        <option value="Santiago del Estero" selected>Provincia: Santiago del Estero</option>
+                        <option value="Tierra del Fuego">Tierra del Fuego</option>
+                        <option value="Tucumán">Tucumán</option>
+                    </select>
+                </div>
+                <div class="form-group mb-1">
+                    <select class="form-select" aria-label="Default select example" id="estado" name="estado">
+                        <option value="A" selected>Estado: Activo (A)</option>
+                        <option value="I">Inactivo (I)</option>
+                    </select>
+                </div>
+                <div class="d-grid gap-2 pt-3">
+                    <button type="submit" class="btn btn-success border border-black rounded">
+                        ➕ Registrar
+                    </button>
+                </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>    
+</div>
+<div class="">
+    <div class="row">
+        <div class="col-lg">
+            <h1>Docentes registrados:</h1>
+        </div>
+        <!--VISUALIZACION MENSAJES-->
+        <div class="col">
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert  alert-docente {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
+                        <!--<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
+                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="alert" aria-label="Close">✕</button>
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <!-- CUADRO DE BUSQUEDA-->
+        <div class="col-lg-3 mt-2">
+            <form id="miFormulario">
+                <div class="input-group mb-3">
+                    <input type="text" id="cuadro-busqueda" class="form-control" placeholder="🔎 Buscar por nombre">
+                    <input id="botonBorrar" type="reset" class="btn btn-outline-secondary" value="Limpiar">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="table-responsive"> <!--COMIENZO TABLA-->
+        <div class="scroll-box">
+            <table class="table table-striped" id="tabla-registros">
+                <thead>
+                     <tr>
+                        <th class="col txt-datos">#</th>
+                        <th class="col txt-datos" hidden>ID Docente</th>
+                        <th class="col txt-datos">CUIL</th>
+                        <th class="col txt-datos">Apellido</th>
+                        <th class="col txt-datos">Nombre</th>
+                        <th class="col txt-datos">Genero</th>
+                        <th class="col txt-datos">Celular</th>
+                        <th class="col txt-datos">Email</th>
+                        <th class="col txt-datos">Domicilio</th>
+                        <th class="col txt-datos">Localidad</th>
+                        <th class="col txt-datos">Provincia</th>
+                        <th class="col txt-datos">Estado</th>
+                        <th class="col txt-datos">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider border-light">
+                    {% for d in docentes %}
+                    <tr id="registro" data-nombre="{{ d.nombre | lower }}" data-apellido="{{ d.apellido | lower }}">
+                        <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
+                        <td class="txt-datos txt-centrado" hidden>{{d.id_doc}}</td>
+                        <td class="txt-datos txt-centrado">{{d.cuil}}</td>
+                        <td class="txt-datos txt-centrado">{{d.apellido}}</td>
+                        <td class="txt-datos txt-centrado">{{d.nombre}}</td>
+                        <td class="txt-datos txt-centrado celda-genero" data-genero="{{d.genero}}">{{d.genero}}</td>
+                        <td class="txt-datos txt-centrado">{{d.celular}}</td>
+                        <td class="txt-datos txt-centrado">{{d.email}}</td>
+                        <td class="txt-datos txt-centrado">{{d.domicilio}}</td>
+                        <td class="txt-datos txt-centrado">{{d.localidad}}</td>
+                        <td class="txt-datos txt-centrado">{{d.provincia}}</td>
+                        <td class="txt-datos txt-centrado celda-estado" data-estado="{{d.estado}}">{{d.estado}}</td>
+                        <!--{% if d.estado == "True" %}
+                            <td class="txt-datos txt-centrado celda-estado" data-estado="Activo">Activo</td>
+                        {% else %}
+                            <td class="txt-datos txt-centrado celda-estado" data-estado="Inactivo">Inactivo</td>
+                        {% endif %}-->
+                        <td class="txt-centrado">
+                            <div class="btn-group dropstart">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu text-center cuerpo-menu-opciones">
+                                    <li><a href="/edicionDocente/{{d.id_doc}}" class="mb-1 dropdown-item bg-primary text-light">
+                                            Modificar
+                                        </a>
+                                    </li>
+                                    <!-- Button trigger modal Eliminar -->
+                                    <li><button type="button" class="dropdown-item bg-danger text-light" data-bs-toggle="modal" data-bs-target="#exampleModal{{d.id_doc}}">
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{d.id_doc}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content bg-whitesmoke">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="txt-centrado">
+                                    <p>
+                                    Esta acción no se puede deshacer.
+                                    <br>
+                                    ¿Está segur@ de <u>eliminar</u> a este Docente?
+                                    <br><br>
+                                    "<strong>{{d.apellido}} {{d.nombre}}</strong>"
+                                    <br>
+                                    CUIL: {{d.cuil}}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-around">
+                                    <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">No</button>
+                                    <a href="/eliminarDocente/{{d.id_doc}}" class="btn btn-danger">Si</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

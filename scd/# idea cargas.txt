@@ -1,0 +1,29 @@
+doc_mat
+* una tercera opcion para cada Docente en el html, "Asociar con Materia"
+se carga una template que muestra el listado de docentes y materias.
+internamente sabemos que esa es la carga de la tabla doc_mat.
+
+la vista retornara los datos de docentes y materias, en html será un input de opciones,
+las opciones tiene de value {{d.id_doc}} y {{m.id_mat}}, y mostraran el nombre completo del docente (y tal vez CUIL) y
+de la materia respectivamente.
+
+Opcional: añadir en base una opcion para acceder a un template que muestre que docente dicta que materia.
+se podria agregar un filtro para buscar por materia o docente.
+
+# -----
+Clase - Horario
+* Cargar Clase y Horario juntos? pero separados en forms
+
+# -----
+Asistencia
+* Asistencia solo requiere fecha porque con la FK de Clase tiene la FK de Horario y se puede mostrar a que Materia,
+y modulo asistió, y demas datos utiles.
+
+Se podria crear un template que muestre todos estos datos.
+
+Adaptar un template de Asistencia para visualizar los datos mencionados y los necesarios.
+
+# -----
+Docente
+* Agregar una nueva opcion que permita tomar asistencia directamente al docente
+* Ademas de agregar un filtro para buscar al docente

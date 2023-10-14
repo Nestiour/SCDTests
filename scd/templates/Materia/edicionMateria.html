@@ -1,0 +1,36 @@
+{% extends "./base.html" %}
+
+{% block title %}Editar Materia{% endblock %}
+ 
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4 py-3">
+        <div class="text-center">
+            <h2>Edición de datos</h2>
+        </div>
+        <div class="card vidrio-blur">
+            <div class="card-body">
+                <form action="{% url 'editarMateria' %}" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="number" id="id_mat" name="id_mat" class="form-control-plaintext text-center" value="{{materia.id_mat}}" readonly>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="text" autocomplete="off" id="nombre" name="nombre" value="{{materia.nombre}}" class="form-control" placeholder="Nombre" maxlength="30" required>
+                    </div>
+                    <!--BOTONES-->
+                    <div class="d-grid gap-2 py-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            💾 Guardar cambios
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-dark mt-3" href="{% url 'gestionMateria' %}">
+                            ⬅️ Descartar cambios y regresar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

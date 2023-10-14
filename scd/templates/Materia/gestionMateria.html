@@ -1,0 +1,124 @@
+{% extends "./base.html" %}
+
+{% block title %}Gestion de Materias{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+    <script src="{% static 'js/eliminar.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+<div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
+        <!--Menu desplegable del formulario-->
+        <button type="button" class="btn btn-success boton-registrar border-dark" data-bs-toggle="modal" data-bs-target="#ModalFormulario">
+            ➕ Registrar nueva Materia
+        </button>
+        <!--formulario de registro de datos-->
+        <div class="modal fade" id="ModalFormulario" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content vidrio-blur">
+                    <div class="modal-header">
+                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Materia:</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                <form action="{% url 'registrarMateria' %}" method="POST">{% csrf_token %}
+                    <div class="form-group mb-1">
+                        <input type="text" autocomplete="off" id="nombre" name="nombre" class="form-control" placeholder="Nombre" maxlength="30" required>
+                    </div>
+                    <div class="d-grid mt-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            ➕ Registrar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="">
+    <div class="row">
+        <div class="col mb-3">
+            <h1>Materias registradas:</h1>
+        </div>
+        <div class="col"> <!--VISUALIZACION MENSAJES-->
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        <strong>{{ message }}</strong>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="table-responsive"> <!--COMIENZO TABLA-->
+        <div class="scroll-box">
+            <table class="table table-striped">
+                <thead>
+                     <tr>
+                        <th class="col txt-datos">#</th>
+                        <th class="col txt-datos" hidden>ID Materia</th>
+                        <th class="col txt-datos">Nombre</th>
+                        <th class="col txt-datos">Opciones</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider border-light">
+                    {% for m in materias %}
+                    <tr>
+                        <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
+                        <td class="txt-datos txt-centrado" hidden>{{m.id_mat}}</td>
+                        <td class="txt-datos">{{m.nombre}}</td>
+                        <td class="txt-centrado">
+                            <div class="btn-group dropstart">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
+                                <ul class="dropdown-menu text-center cuerpo-menu-opciones">
+                                    <li><a href="/edicionMateria/{{m.id_mat}}" class="mb-1 dropdown-item bg-primary text-light">
+                                            Modificar
+                                        </a>
+                                    </li>
+                                    <!-- Button trigger modal Eliminar -->
+                                    <li><button type="button" class="dropdown-item bg-danger text-light" data-bs-toggle="modal" data-bs-target="#exampleModal{{m.id_mat}}">
+                                            Eliminar
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal{{m.id_mat}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                        <div class="modal-content bg-whitesmoke">
+                            <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="txt-centrado">
+                                    <p>Esta acción no se puede deshacer.
+                                    <br>
+                                    ¿Está segur@ de <u>eliminar</u> esta Materia?
+                                    <br><br>
+                                    "<strong>{{m.nombre}}</strong>"</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer justify-content-around">
+                                    <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">No</button>
+                                    <a href="/eliminarMateria/{{m.id_mat}}" class="btn btn-danger">Si</a>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

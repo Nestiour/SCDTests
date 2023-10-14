@@ -1,0 +1,390 @@
+/*Todas las medidas en rem estan basadas en el tamaño de fuente por defecto: 16px*/
+
+body {
+  min-height: 100vh;
+  background-size: cover;
+  background-position: center;
+}
+.margen-body { /*Demás estilos en "PANTALLAS PEQUEÑAS"*/
+  margin-left: 3rem; /*equivale a mx-5 de Bootstrap*/
+  margin-right: 3rem;
+  margin-top: 1rem; /*equivale a mt-3 de Bootstrap*/
+}
+th {
+  text-align: center;
+  vertical-align: middle;
+}
+td {
+  vertical-align: middle;
+}
+.txt-centrado {
+  text-align: center;
+  vertical-align: middle;
+}
+.txt-justificado {
+  text-align: justify;
+}
+.logo-escuela {
+  background-image: url('../img/logo_escuela.png');
+  background-position: right bottom;
+  background-repeat: no-repeat;
+  background-size: auto 10rem;
+  opacity: 0.25;
+  position: fixed;
+  bottom: 1rem; /* Espacio desde el borde inferior */
+  right: 1rem; /* Espacio desde el borde derecho */
+  width: 10rem; /* Ancho del logo */
+  height: 10rem; /* Altura del logo */
+  z-index: -1;
+}
+.tamano-icono {
+  width: 1.5rem; /*25px*/
+  height: 1.5rem;
+}
+.menu {
+  max-width: fit-content;
+}
+.boton-menu {
+  max-width: max-content;
+}
+.cuerpo-accounts {
+  margin: 0 auto;
+  width: 50vw;
+  padding-top: 1rem;
+}
+/*.largo-completo {
+  height: 100%;
+}*/
+/* --- FORMs - formulario ingreso datos - color fuente en "FUENTES" --- */
+/*.form-preceptor {
+  margin-top: 3.4rem;
+  height: fit-content;
+  min-height: 27rem; /*410px*/
+  /*max-height: 31rem;
+  width: fit-content;
+  min-width: 25rem;
+  max-width: 31rem;
+}*/
+.boton-registrar {
+  position: fixed;
+  bottom: 1.25rem; /*20px*/
+  left: 50%;
+  transform: translateX(-50%);
+  -webkit-transform: translateX(-50%);
+  -moz-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  -o-transform: translateX(-50%);
+}
+.vidrio-blur {
+  backdrop-filter: blur(.3rem); /*5px*/
+  border: .06rem; /*1px*/
+  border-style: solid;
+  border-radius: .63rem; /*10px*/
+  /*Colores en "COLORES"*/
+}
+/* --- Cuadros con barra de desplazamiento --- */
+.scroll-box {
+  max-height: 33rem; /*Altura maxima de los cuadros 525px*/
+  overflow-y: auto; /*o scroll*/
+} /* --- */
+.offcanvas-noticia {
+  height: fit-content;
+  width: 50%;
+  min-height: 31rem; /*500px*/
+}
+/* --- ACCOUNTS --- */
+#id_username, #id_password, #id_password1, #id_password2, #id_email, #id_new_password1, #id_new_password2 {
+  border: .06rem; /*1px*/
+  border-style: solid;
+  border-radius: .3rem; /*5px*/
+  width: 100%;
+  border-color: black;
+} /* --- */
+/*.dropdown-menu {
+  border-radius: 0px;
+  padding-left: 10px;
+  padding-right: 10px;
+}*/
+.cuerpo-menu-ocio {
+  padding: .1rem;
+  width: fit-content;
+}
+.cuerpo-menu-opciones {
+  padding: .2rem;
+  border: .15rem; /*1px .06*/
+  border-style: solid;
+  border-radius: .3rem; /*5px*/;
+}
+.imagen-noticia {
+  margin: auto;
+  width: 10rem;
+  height: 10rem;
+}
+.cuerpo-noticia img {
+  max-width: 100%; /* Establece el ancho máximo como el 100% del contenedor */
+  max-height: 100%;
+  width: auto; /* Permite que el ancho se ajuste automáticamente para mantener la proporción */
+  height: auto;
+}
+.cuerpo-noticia a {
+  /*border: none;*/
+  color: white;
+  background-color:#6c757d;
+  border-color: black;
+  border-radius: .3rem;
+  padding-top: .05rem;
+  padding-bottom: .05rem;
+  padding-left: .1rem;
+  padding-right: .1rem;
+  text-decoration: none;
+  border-width: 1px;
+  border-style: solid;
+}
+.cuerpo-noticia a:hover {
+  color: #fff;
+  background-color: #5a6268;
+}
+.card-footer-noticia {
+  display: flex;
+  justify-content: space-around;
+}
+
+/* -------------------------------------------------------------------- FUENTES */
+h1, h2, h3, h4, h5 {
+  font-family:'Segoe UI';
+  color: black;
+}
+p, span {
+  font-family:'Segoe UI';
+  color: black;
+}
+.letra-blanca {
+  font-family:'Segoe UI';
+  color: black;
+}
+.letra-negra {
+  font-family:'Segoe UI';
+  color: white;
+}
+.txt-btn-menu-b {
+  font-family:'Segoe UI';
+  color: white;
+}
+.txt-btn-menu-n {
+  font-family:'Segoe UI';
+  color: black;
+}
+.txt-datos {
+  font-family:'Segoe UI';
+  color: black;
+}
+.form-titulo {
+  text-orientation: upright;
+  color: black;
+  -webkit-text-orientation: upright;
+}
+
+/* -------------------------------------------------------------------- COLORES */
+.bg-verde {
+  background-color: #198754; /*verde success de Bootstrap*/
+}
+.bg-rojo {
+  background-color: #dc3545; /*rojo danger de Bootstrap*/
+}
+.bg-whitesmoke {
+  background-color: whitesmoke;
+}
+.celda-estado[data-estado="A"] {
+  background-color: #79AC78;
+}
+.celda-estado[data-estado="I"] {
+  background-color: #EF4B4B; /*d83f31*/
+}
+.celda-genero[data-genero="F"] {
+  background-color: pink;
+}
+.celda-genero[data-genero="M"] {
+  background-color: skyblue;
+}
+body {
+  background: whitesmoke; /*dac29c*/
+}
+thead { /*Barra tablas*/
+  background-color:#be761b; /*85765f baa685 908363 998659 cc7639*/
+}
+.vidrio-blur {
+  background: rgba(215, 215, 215, .5);
+  border-color: #a76718; /*5e5549 804a24*/
+  box-shadow: .63rem .63rem .63rem 0rem rgba(0, 0, 0, 0.25);
+}
+.btn-menu-inicio {
+  color: black;
+  background-color:#ee9322; /*847552 FF9447*/
+  border-color: black;
+  border-radius: .3rem; /*5px*/
+}
+.btn-menu-inicio:hover {
+  color: white;
+  border-color: white;
+  background-color: #8f5814; /*5f4b00 cc7639*/
+}
+/* --- BASE --- */
+.bg-marron {
+  background: #847552;
+}
+.navbar-menu {
+  background:#ee9322; /*3b2e00 FF9447*/
+}
+.bg-marron-osc {
+  background: #3b2e00;
+}
+.bg-menu {
+  background: #774911; /*1d1700 7f4a23*/
+}
+.btn-menu {
+  background: white;
+}
+.btn-borde {
+  border: .06rem; /*1px*/
+  border-style: solid;
+  border-color: black;
+  border-radius: .4rem;
+}
+/* --- */
+.cuerpo-menu-ocio {
+  background: #a76718;
+  border-color: #ee9322; /*5e5549 804a24*/
+  box-shadow: .63rem .63rem .63rem 0rem rgba(0, 0, 0, 0.25);
+}
+.cuerpo-menu-opciones {
+  background: white; /*ee9322*/
+  border-color: #ee9322; /*5e5549 804a24 a76718*/
+  box-shadow: .63rem .63rem .63rem 0rem rgba(0, 0, 0, 0.25);
+}
+.alert-docente {
+  padding: .25rem;
+  margin-top: .20rem;
+}
+.bnt-cerrar-docente {
+  padding: 0rem;
+  margin: 0rem;
+  align-self: center;
+}
+
+/* -------------------------------------------------------------------- PANTALLAS PEQUEÑAS */
+/* Media query para pantallas más pequeñas que 768px de ancho */
+@media (max-width: 768px) {
+  .cuerpo-accounts {
+    width: 70vw; /* Ancho del 70% de la ventana en pantallas pequeñas */
+  }
+  .margen-body {
+    margin-left: 2rem;
+    margin-right: 2rem;
+    margin-top: .75rem;
+  }
+}
+/* Media query para pantallas más pequeñas que 480px de ancho */
+@media (max-width: 480px) {
+  .cuerpo-accounts {
+    width: 90vw; /* Ancho del 90% de la ventana en pantallas aún más pequeñas */
+  }
+  .margen-body {
+    margin-left: .75rem;
+    margin-right: .75rem;
+    margin-top: .50rem;
+  }
+}
+
+/* -------------------------------------------------------------------- CALENDARIO */
+.calendar { /*el div contenedor de todo*/
+  width: 100%;
+  background: white;
+  border-radius: .5em; }
+  .calendar__info { /*div, contiene flechas, mes y año*/
+    display: flex;
+    align-items: center;
+    padding: 0 .5em;
+    font-size: 1.5em;
+    text-transform: uppercase; }
+    .calendar__prev, .calendar__next { /*flechas*/
+      color: #ee9322;
+      cursor: pointer;
+      font-size: 1.5em; }
+      .calendar__prev {
+        margin-right: auto; }
+      .calendar__next {
+        margin-left: auto; }
+    .calendar__month, .calendar__year { /*Mes - Año*/
+      padding: 0em .25em; }
+  .calendar__week{ /*div, contiene el nombre de los dias*/
+    border: 0em;
+    border-top: .25em;
+    border-bottom: .25em;
+    border-color:rgb(211, 211, 211);
+    border-style: solid;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); }
+    .calendar__item { /*Nombre dia*/
+      text-align: center;
+      line-height: 2; } /*altura linea*/
+  .dates-cont div { /*div, contiene al div del numero del dia*/
+    border: 1em;
+    border-color: black;
+    padding: 1em;
+    text-align: end;
+    }
+    .calendar__dates { /*div, numero del dia*/
+      border: 1em;
+      border-color: black;
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      }
+  /*Aplicado via JS*/
+  .calendar__today { /*Dia actual*/
+    background: #ee9322; }
+  .calendar__last-days { /*Dias anterior mes*/
+    opacity: .3; }
+  #dia {
+    border: 0em;
+    border-bottom: .05em;
+    border-right: .05em;
+    border-style: solid; }
+  #dia:hover {
+    background-color: white; }
+  #dia-mes-ant {
+    border: 0em;
+    border-bottom: .05em;
+    border-right: .05em;
+    border-style: solid; }
+
+/* -------------------------------------------------------------------- BARRA DE DESPLAZAMIENTO */
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #a76718 #FFFFFF; /*3B2E00*/
+}
+/* Chrome, Edge and Safari */
+*::-webkit-scrollbar {
+  width: .44rem; /*7px*/
+  width: .44rem;
+}
+*::-webkit-scrollbar-track {
+  border-radius: .31rem;
+  background-color: #FFFFFF;
+}
+*::-webkit-scrollbar-track:hover {
+  background-color: #FFFFFF;
+}
+*::-webkit-scrollbar-track:active {
+  background-color: #FFFFFF;
+}
+*::-webkit-scrollbar-thumb {
+  border-radius: .31rem;
+  background-color: #a76718; /*3B2E00*/
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: #d6841f; /*b19440 7e6300*/
+}
+*::-webkit-scrollbar-thumb:active {
+  background-color: #be761b; /*5f4b00*/
+}

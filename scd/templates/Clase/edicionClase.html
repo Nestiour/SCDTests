@@ -1,0 +1,57 @@
+{% extends "./base.html" %}
+
+{% block title %}Editar Clase{% endblock %}
+ 
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4 py-3">
+        <div class="text-center">
+            <h2>Edición de datos</h2>
+        </div>
+        <div class="card vidrio-blur">
+            <div class="card-body">
+                <form action="{% url 'editarClase' %}" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="number" id="id_cla" name="id_cla" class="form-control-plaintext text-center" value="{{clase.id_cla}}" readonly>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA HORARIOS-->
+                        <select class="form-select" aria-label="Default select example" id="id_hor" name="id_hor">
+                            <option value="{{h.id_hor}}" selected>Seleccionado: {{h.dia}}, {{h.h_i}}° - {{h.h_f}}° mod.</option>
+                            {% for h in horarios %}
+                                <option value="{{h.id_hor}}">Día: {{h.dia}}, del {{h.h_i}}° al {{h.h_f}}° modulo.</option>  
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA CURSOS-->
+                        <select class="form-select" aria-label="Default select example" id="id_cur" name="id_cur">
+                            <option value="{{c.id_cur}}" selected>Seleccionado: {{c.anio}}° {{c.division}}° {{c.especialidad}}, {{c.turno}}</option>
+                            {% for c in cursos %}
+                                <option value="{{c.id_cur}}">{{c.anio}}° {{c.division}}° {{c.especialidad}}, Turno: {{c.turno}}.</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA DOC_MAT-->
+                        <select class="form-select" aria-label="Default select example" id="id_dm" name="id_dm">
+                            <option value="{{dm.id_dm}}" selected>Seleccionado: {{dm.id_mat.nombre}} - {{dm.id_doc.apellido | upper}} {{dm.id_doc.nombre}}</option>
+                            {% for dm in DMs %}
+                                <option value="{{dm.id_dm}}">{{dm.id_mat.nombre}} - {{dm.id_doc.apellido | upper}} {{dm.id_doc.nombre}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!--BOTONES-->
+                    <div class="d-grid gap-2 py-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            💾 Guardar cambios
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-dark mt-3" href="{% url 'gestionClase' %}">
+                            ⬅️ Descartar cambios y regresar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

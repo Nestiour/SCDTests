@@ -1,0 +1,49 @@
+{% extends "./base.html" %}
+
+{% block title %}Editar Horario{% endblock %}
+ 
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4 py-3">
+        <div class="text-center">
+            <h2>Edición de datos</h2>
+        </div>
+        <div class="card vidrio-blur">
+            <div class="card-body">
+                <form action="{% url 'editarHorario' %}" method="POST">{% csrf_token %}
+                    <div class="form-group">
+                        <input type="number" id="id_hor" name="id_hor" class="form-control-plaintext text-center" value="{{horario.id_hor}}" readonly>
+                    </div>
+                    <div class="form-group mb-1"> <!--LISTA DIAS-->
+                        <select class="form-select" aria-label="Default select example" id="dia" name="dia">
+                            <option value="{{horario.dia}}" selected>Seleccionado: {{horario.dia}}</option>
+                            <option value="L">(L) Lunes</option>
+                            <option value="M">(M) Martes</option>
+                            <option value="X">(X) Miércoles</option>
+                            <option value="J">(J) Jueves</option>
+                            <option value="V">(V) Viernes</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="number" autocomplete="off" id="h_i" name="h_i" value="{{horario.h_i}}" class="form-control" placeholder="Hora/Modulo de Inicio" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="1" required>
+                    </div>
+                    <div class="form-group mb-1">
+                        <input type="number" autocomplete="off" id="h_f" name="h_f" value="{{horario.h_f}}" class="form-control" placeholder="Hora/Modulo de Fin" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="1" required>
+                    </div>
+                    <!--BOTONES-->
+                    <div class="d-grid gap-2 py-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            💾 Guardar cambios
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-dark mt-3" href="{% url 'gestionHorario' %}">
+                            ⬅️ Descartar cambios y regresar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
