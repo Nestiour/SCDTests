@@ -7,6 +7,9 @@ from django.contrib.auth.models import User
 
 class UserCreationForm(BaseUserCreationForm):
     # ... otros campos del modelo
+    nombre = forms.CharField(max_length=255, required=True)
+    apellido = forms.CharField(max_length=255, required=True)
+    correo_electronico = forms.EmailField(required=True)
 
     GROUP_CHOICES = [
         ('Preceptor', 'Preceptor'),
@@ -16,7 +19,7 @@ class UserCreationForm(BaseUserCreationForm):
 
     class Meta:
         model = User  # Aquí debes especificar el modelo de usuario, que en este caso es el modelo por defecto de Django
-        fields = ['username', 'password1', 'password2', 'group']
+        fields = ['username', 'password1', 'password2', 'nombre', 'apellido', 'correo_electronico', 'group']
 
     def clean(self):
         cleaned_data = super().clean()

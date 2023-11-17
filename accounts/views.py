@@ -28,7 +28,11 @@ def signup(request):
         form = UserCreationForm(request.POST)
         try:
             if form.is_valid():
-                user = form.save()
+                user = form.save(commit=False)
+                user.first_name = form.cleaned_data['nombre']
+                user.last_name = form.cleaned_data['apellido']
+                user.email = form.cleaned_data['correo_electronico']
+                user.save()
 
                 # Obtén el grupo seleccionado en el formulario
                 group_name = form.cleaned_data['group']
