@@ -128,7 +128,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')"""
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-LOGIN_URL = '/accounts/signin'
+LOGIN_URL = '/signin'
 
 # Email
 

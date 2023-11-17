@@ -1,0 +1,113 @@
+{% extends ".\base.html" %}
+
+{% block title %}Consultar asistencia{% endblock %}
+
+{% load static %}
+
+{% load custom_filters %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-lg">
+            <h1>Historial de Asistencias</h1>
+        </div>
+        <!-- CUADRO DE BUSQUEDA-->
+        <div class="col-lg-3 mt-2">
+            <form action="{% url 'consultarAsistencia' %}" method="POST">{% csrf_token %}
+                <div class="input-group mb-3">
+                    <!--<div class="" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="Llename! 🤰">-->
+                        <input type="text" autocomplete="off" id="cuil" name="cuil" class="form-control" placeholder="🔎 Ingrese su CUIL" minlength="10" maxlength="12" required>
+                    <!--</div>-->
+                    <button type="submit" class="btn btn-outline-secondary">
+                        Buscar
+                    </button>
+                    <!--<input id="botonBorrar" type="reset" class="btn btn-outline-secondary" value="Limpiar">-->
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% if asistencias %}
+    <div class="table-responsive"> <!--COMIENZO TABLA-->
+        <div class="scroll-box">
+            <table class="table table-striped" id="tabla-registros">
+                <thead>
+                     <tr>
+                        <th class="col-1 txt-datos">#</th>
+                        <th class="col txt-datos" hidden>ID Asi</th>
+                        <th class="col-3 txt-datos">Docente</th>
+                        <th class="col txt-datos">Estado</th>
+                        <th class="col txt-datos">Artículo</th>
+                        <th class="col txt-datos">Curso</th>
+                        <th class="col txt-datos">Especialidad</th>
+                        <th class="col txt-datos">Módulos</th>
+                        <th class="col-2 txt-datos th-asi-der">Fecha y Hora</th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider border-light">
+                    {% for a in asistencias %}
+                        <tr>
+                            <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
+                            <td class="txt-datos txt-centrado" hidden>{{a.id_asi}}</td>
+                            <td class="txt-datos"><strong>{{a.id_cla.id_dm.id_doc.apellido}}</strong>, {{a.id_cla.id_dm.id_doc.nombre}}</td>
+                            <td class="txt-datos txt-centrado celda-asistencia" data-asistencia="{{a.asistencia}}">{{a.asistencia}}</td>
+                            <td class="txt-datos txt-centrado">{{a.articulo}}</td>
+                            {% if a.id_cla %}
+                                <td class="txt-datos txt-centrado"> <!--CURSO-->
+                                    {{a.id_cla.id_cur.anio}}° {{a.id_cla.id_cur.division}}°
+                                </td>
+                                <td class="txt-datos"> <!--ESPECIALIDAD-->
+                                    {{a.id_cla.id_cur.especialidad}}
+                                </td>
+                                <td class="txt-datos txt-centrado"> <!--MODULOS-->
+                                    {{a.id_cla.id_hor.h_i}}° - {{a.id_cla.id_hor.h_f}}°
+                                </td>
+                            {% else %}
+                                <td class="txt-datos txt-centrado">-</td>
+                            {% endif %}
+                            <td class="txt-datos txt-centrado">{{a.fecha}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% else %}
+    <!--VISUALIZACION MENSAJES-->
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags != 'success' %}
+                <div class="cuerpo-accounts">
+                    <div class="vidrio-blur mt-5 p-5">
+                        <div class="text-center">
+                            {% if message.tags == 'warning' %}
+                                <p>Para visualizar los registros de Asistencia, ingrese su <strong>CUIL</strong> en el <span id="cuil-span" class="btn btn-info">🔎cuadro de búsqueda</span> ubicado en la esquina superior derecha.</p>
+                            {% endif %}
+                            {% if message.tags == 'error' %}
+                                No se encontró el <strong>CUIL</strong>.
+                                <!--{{ message }}
+                                <!--<p>Si ya buscó su CUIL y no se devolvieron registros...</p>
+                                <h5>Usted no registra Asistencias.</h1>-->
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+                
+{% endif %}
+
+<script>
+    document.getElementById("cuil-span").addEventListener("click", function() {
+        document.getElementById("cuil").focus();
+    });
+</script>
+
+{% endblock %}

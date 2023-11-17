@@ -27,3 +27,17 @@ Adaptar un template de Asistencia para visualizar los datos mencionados y los ne
 Docente
 * Agregar una nueva opcion que permita tomar asistencia directamente al docente
 * Ademas de agregar un filtro para buscar al docente
+
+# ---
+Notas reunion 2/10
+    Listo:
+Cuadro de busqueda Docente agregado
+Los registros de todas las paginas se muestran por orden (nombre o nro.)
+Los IDs no se muestran
+Colores cambiados.
+    Falta:
+Visualizar Horarios por dia
+Cargar todos los Horarios
+Botones en opciones de Curso(No deberia ser en Clase) para ver Horario, Docente y Materia
+    Sugerencia:
+Al cargar una Clase, mostrar un menu desplegable visual que muestre en cuadricula dias y modulo para seleccionar directamente.

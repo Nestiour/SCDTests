@@ -1,4 +1,4 @@
-{% extends "./base.html" %}
+{% extends ".\base.html" %}
 
 {% block title %}Gestion de Docentes{% endblock %}
 
@@ -10,6 +10,18 @@
 {% endblock %}
 
 {% block body %}
+
+<!--VISUALIZACION MENSAJES-->
+<div class=""> <!--col-->
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-docente {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
+                <button type="button" class="btn btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>{{ message }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
 <div class="row">
     <div class="col-sm-12 col-md-6 col-lg-4 col-xl-4">
         <!--Menu desplegable del formulario-->
@@ -21,7 +33,7 @@
             <div class="modal-dialog">
                 <div class="modal-content vidrio-blur">
                     <div class="modal-header">
-                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Docente:</h4>
+                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Docente</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -101,19 +113,7 @@
 <div class="">
     <div class="row">
         <div class="col-lg">
-            <h1>Docentes registrados:</h1>
-        </div>
-        <!--VISUALIZACION MENSAJES-->
-        <div class="col">
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert  alert-docente {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
-                        <!--<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>-->
-                        <button type="button" class="btn btn-light btn-sm" data-bs-dismiss="alert" aria-label="Close">✕</button>
-                        <strong>{{ message }}</strong>
-                    </div>
-                {% endfor %}
-            {% endif %}
+            <h1>Docentes registrados</h1>
         </div>
         <!-- CUADRO DE BUSQUEDA-->
         <div class="col-lg-3 mt-2">
@@ -151,12 +151,12 @@
                         <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
                         <td class="txt-datos txt-centrado" hidden>{{d.id_doc}}</td>
                         <td class="txt-datos txt-centrado">{{d.cuil}}</td>
-                        <td class="txt-datos txt-centrado">{{d.apellido}}</td>
-                        <td class="txt-datos txt-centrado">{{d.nombre}}</td>
+                        <td class="txt-datos"><strong>{{d.apellido}}</strong></td>
+                        <td class="txt-datos">{{d.nombre}}</td>
                         <td class="txt-datos txt-centrado celda-genero" data-genero="{{d.genero}}">{{d.genero}}</td>
                         <td class="txt-datos txt-centrado">{{d.celular}}</td>
-                        <td class="txt-datos txt-centrado">{{d.email}}</td>
-                        <td class="txt-datos txt-centrado">{{d.domicilio}}</td>
+                        <td class="txt-datos">{{d.email}}</td>
+                        <td class="txt-datos">{{d.domicilio}}</td>
                         <td class="txt-datos txt-centrado">{{d.localidad}}</td>
                         <td class="txt-datos txt-centrado">{{d.provincia}}</td>
                         <td class="txt-datos txt-centrado celda-estado" data-estado="{{d.estado}}">{{d.estado}}</td>
@@ -169,7 +169,7 @@
                             <div class="btn-group dropstart">
                                 <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                 <ul class="dropdown-menu text-center cuerpo-menu-opciones">
-                                    <li><a href="/edicionDocente/{{d.id_doc}}" class="mb-1 dropdown-item bg-primary text-light">
+                                    <li><a href="{% url 'edicionDocente' id_doc=d.id_doc %}" class="mb-1 dropdown-item bg-primary text-light">
                                             Modificar
                                         </a>
                                     </li>
@@ -205,7 +205,7 @@
                             </div>
                             <div class="modal-footer justify-content-around">
                                     <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">No</button>
-                                    <a href="/eliminarDocente/{{d.id_doc}}" class="btn btn-danger">Si</a>
+                                    <a href="{% url 'eliminarDocente' id_doc=d.id_doc %}" class="btn btn-danger">Si</a>
                             </div>
                         </div>
                         </div>
@@ -216,4 +216,5 @@
         </div>
     </div>
 </div>
+
 {% endblock %}

@@ -1,4 +1,4 @@
-{% extends './base.html' %}
+{% extends '.\base.html' %}
 
 {% load static %}
 
@@ -24,7 +24,7 @@
                                 {% if noticia.imagen %} 
                                     <img src="{{ noticia.imagen }}" class="card-img-top imagen-noticia" alt="{{ noticia.descripcion_imagen }}"> <!-- type="image/png" height="100" width="200"-->
                                 {% else %}
-                                    <img src="{% static 'img/logo_escuela.png' %}" class="card-img-top imagen-noticia" alt="Logo ETN°6">
+                                    <img src="{% static 'img/logo_escuela.png' %}" class="card-img-top imagen-noticia-logo" alt="Logo ETN°6">
                                 {% endif %}
                                 <div class="card-body txt-centrado">
                                     <h5 class="card-title">{{ noticia.titulo }}</h5>

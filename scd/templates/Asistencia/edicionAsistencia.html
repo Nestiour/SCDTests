@@ -1,0 +1,106 @@
+{% extends ".\base.html" %}
+
+{% block title %}Editar Asistencia{% endblock %}
+ 
+{% block body %}
+<div class="row">
+    <div class="col-md-4 offset-md-4 py-3">
+        <div class="text-center mb-4">
+            <h2>Edición de datos</h2>
+        </div>
+        <div class="card vidrio-blur">
+            <div class="card-body">
+                <form action="{% url 'editarAsistencia' %}" method="POST">{% csrf_token %}
+
+                    <div class="form-group" hidden>
+                        <input type="number" id="id_asi" name="id_asi" class="form-control-plaintext text-center" value="{{asistencia.id_asi}}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="" name="" class="form-control" value="{{asistencia.id_cla.id_dm.id_doc.apellido}}, {{asistencia.id_cla.id_dm.id_doc.nombre}}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="asistencia" name="asistencia" class="form-control" value="Estado: {{asistencia.asistencia}}" disabled>
+                    </div>
+                    <!--ARTICULO-->
+                    <div class="form-group mt-1 mb-1">
+                        <select class="form-select" aria-label="Default select example" id="articulo" name="articulo" required>
+                            <option value="" selected disabled>Seleccione un Artículo</option>
+                            <option value="1">1</option>
+                            <option value="2 A">2 A</option>
+                            <option value="2 B">2 B</option>
+                            <option value="2 C">2 C</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8 A">8 A</option>
+                            <option value="8 B">8 B</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14 A">14 A</option>
+                            <option value="14 B">14 B</option>
+                            <option value="14 C">14 C</option>
+                            <option value="14 D">14 D</option>
+                            <option value="14 E">14 E</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18 A">18 A</option>
+                            <option value="18 B">18 B</option>
+                            <option value="19">19</option>
+                            <option value="20 A">20 A</option>
+                            <option value="20 B">20 B</option>
+                            <option value="20 C">20 C</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24 A">24 A</option>
+                            <option value="24 B">24 B</option>
+                            <option value="24 C">24 C</option>
+                            <option value="25">25</option>
+                            <option value="26 A">26 A</option>
+                            <option value="26 B">26 B</option>
+                            <option value="26 C">26 C</option>
+                            <option value="27">27</option>
+                            <option value="28 A">28 A</option>
+                            <option value="28 B">28 B</option>
+                            <option value="28 C">28 C</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                            <option value="32">32</option>
+                            <option value="33">33</option>
+                            <option value="34">34</option>
+                            <option value="35">35</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="curso" name="curso" class="form-control" value="{{asistencia.id_cla.id_cur.anio}}° {{asistencia.id_cla.id_cur.division}}°, {{asistencia.id_cla.id_cur.especialidad}}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="responsable" name="responsable" class="form-control" value="Responsable: {{asistencia.responsable}}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="fecha" name="fecha" class="form-control" value="Última modificación: {{asistencia.fecha}}" disabled>
+                    </div>
+                    <!--BOTONES-->
+                    <div class="d-grid gap-2 py-3">
+                        <button type="submit" class="btn btn-success border border-black rounded">
+                            💾 Guardar cambios
+                        </button>
+                    </div>
+                    <div class="text-center">
+                        <a class="btn btn-dark mt-3" href="{% url 'verAsistencia' %}">
+                            ⬅️ Descartar cambios y regresar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

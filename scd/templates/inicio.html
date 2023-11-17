@@ -1,8 +1,10 @@
-{% extends './base.html' %}
+{% extends '.\base.html' %}
 
 {% block title %}Inicio - Sistema Control Docente{% endblock %}
 
 {% load static %}
+
+{% load custom_filters %}
 
 {% block scripts %}
     <script src="{% static 'js/general.js' %}"></script>
@@ -10,13 +12,70 @@
 
 {% block body %}
 
-<div class="vidrio-blur p-3">
-    {% if user.is_authenticated %}
+{% if user.is_authenticated %}
+    <div class="vidrio-blur p-3">
         <h1>{{saludo}}, {{ user.username }}</h1>
-    {% else %}
-        <h1>{{saludo}}</h1>
-        <p>Por favor, inicie sesión.</p>
+    </div>
+
+    {% if user|has_group:"Administrador" or user|has_group:"Preceptor" %}
+        <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
+            {% for c in clases %}
+                <div class="card text-center m-2 cuerpo-tarjeta-clase" style="width: 15rem;">
+                    <div class="card-header card-header-tarjeta-clase"></div>
+                    <div class="card-body">
+                        <span class="card-title fecha-actual-asi">
+                            <strong>
+                                {% if c.id_hor.dia == "L" %}
+                                    Lunes,
+                                {% else %}
+                                    {% if c.id_hor.dia == "M" %}
+                                        Martes,
+                                    {% else %}
+                                        {% if c.id_hor.dia == "X" %}
+                                            Miércoles,
+                                        {% else %}
+                                            {% if c.id_hor.dia == "J" %}
+                                                Jueves,
+                                            {% else %}
+                                                {% if c.id_hor.dia == "V" %}
+                                                    Viernes,
+                                                {% endif %}
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
+                                {{c.id_hor.h_i}}°- {{c.id_hor.h_f}}°
+                            </strong>
+                        </span>
+                        <br>
+                        <span class="card-text fecha-actual-asi">
+                            {{c.id_cur.anio}}° {{c.id_cur.division}}° {{c.id_cur.especialidad}}
+                        </span>
+                    </div>
+                </div>                        
+            {% endfor %}
+        </div>
     {% endif %}
+
+<!--Mostrar a Docentes/preceptores:
+En Docentes: que curso tiene, que horario (mod), dia, que materia
+Preceptor (ahora no): mostrar sus cursos asignados
+Vice: por dia y luego por turno, que materias tiene que curso
+Docente tiene X materias, en un futuro asociar cada cuenta docente con su CUIl, de ahi obtenerlo y mostrar sus materias relacionadas-->
+
+{% else %}
+<div class="cuerpo-accounts">
+    <div class="vidrio-blur mt-5 p-5">
+        <div class="text-center">
+            <h1>{{saludo}} 👋</h1>
+            </br>
+            <p>Por favor, inicie sesión.</p>
+        </div>
+    </div>
+    <div class="mt-5 text-center">
+        <a class="btn btn-success border-black" href="{% url 'signin' %}">🚪Iniciar sesión</a>
+    </div>
 </div>
+{% endif %}
 
 {% endblock %}

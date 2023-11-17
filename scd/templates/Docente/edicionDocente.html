@@ -1,18 +1,19 @@
-{% extends "./base.html" %}
+{% extends ".\base.html" %}
 
 {% block title %}Editar Docente{% endblock %}
  
 {% block body %}
 
-<div class="row">
-    <div class="col-md-4 offset-md-4 py-3">
+<div class=""> <!--row-->
+    <div class="col-lg-5 col-md-7 col-sm-10 contenido-centrado"> <!--col-md-4 offset-md-4 py-3-->
         <div class="text-center">
             <h2>Edición de datos</h2>
         </div>
-        <div class="card vidrio-blur">
+        <div class="scroll-box">
+        <div class="card bg-whitesmoke borde"> <!--vidrio-blur-->
             <div class="card-body">
                 <form action="{% url 'editarDocente' %}" method="POST">{% csrf_token %}
-                    <div class="form-group">
+                    <div class="form-group" hidden>
                         <input type="number" id="id_doc" name="id_doc" class="form-control-plaintext text-center" value="{{docente.id_doc}}" readonly>
                     </div>
                     <div class="form-group mb-1">
@@ -91,6 +92,8 @@
                 </form>
             </div>
         </div>
+    </div> <!--scroll-box-->
     </div>
-</div>  
+</div>
+
 {% endblock %}

@@ -2,6 +2,8 @@
 <html lang="es">
   <head>
     {% load static %}
+
+    {% load custom_filters %}
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}{% endblock %}</title>
@@ -13,146 +15,249 @@
     /> 
     <link rel="stylesheet" href="{% static 'css/SCD.css' %}" />
     <link rel="icon" href="{% static 'img/logo_escuela.ico' %}" />
+    <!--La siguiente linea es necesaria para el fitlrado de fecha!-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> 
   </head>
   <body>
     <!--NAVBAR-->
     <nav class="navbar navbar-menu">
       <div class="container-fluid justify-content-between">
-        <a class="btn btn-primary btn-sm border border-black rounded" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
-          ☰ Menú
-        </a>
-        <!--Visualizador de la fecha en navbar-->
-        <div class="" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Hacé clic sobre mí para acceder al calendario!">
-          <a class="btn btn-light btn-sm letra-blanca" id="fecha-actual" href="{% url 'calendario' %}">🕒</a>
-        </div>
-        <!--Boton cuenta-->
-        <div class="">
-          <div class="btn-group">
-            <button type="button" class="btn btn-primary btn-sm dropdown-toggle border border-black rounded" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-              Cuenta
-            </button>
-            <ul class="dropdown-menu dropdown-menu-end txt-centrado">
-              {% if request.user.is_authenticated %}
-                <!--Mostrar nombre usuario logueado-->
-                <li>
-                  <div class="">
-                    <span class="">
-                      {{ user.username | upper }}
-                    </span>
-                  </div>
-                </li>
-                <!--Linea divisoria-->
-                <li><hr class="dropdown-divider"></li>
-                <!--Cerrar sesion-->
-                <li>
-                  <div class="">
-                    <a class="btn btn-danger" href="{% url 'logout' %}">🚪Cerrar sesión</a>
-                  </div>
-                </li>
-              {% else %}
-                <!--Iniciar sesion-->
-                <li>
-                  <div class="">
-                    <a class="btn btn-success" href="{% url 'signin' %}">🚪Iniciar sesión</a>
-                  </div>
-                </li>
-              {% endif %}
-            </ul>
-          </div>
-        </div>
-        <!--Comienzo menu-->
-        <div class="offcanvas offcanvas-start bg-menu menu" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
-          <div class="offcanvas-header">
-            <a class="btn btn-light btn-sm border border-black rounded" data-bs-dismiss="offcanvas" aria-label="Close">
-              ✕ Cerrar
+        {% if user.is_authenticated %}
+          {% if user|has_group:"Docente" %}
+            <!--mostrar solo menu cerrar sesion-->
+            <a class="btn btn-primary btn-sm border border-black rounded disabled">
+              ☰ Menú
             </a>
-          </div>
-          <!--Contenido menu-->
-          <div class="offcanvas-body">
+            <!--Visualizador de la fecha en navbar-->
+            <span class="bg-light letra-blanca p-1 rounded-1 small" id="fecha-actual">🕒</span> <!-- ms-5-->
+            <!--INICIAR SESION-->
+            <!--Boton cuenta-->
             <div class="">
-              <!--Inicio-->
-              <div class="d-grid gap-2 mb-1">
-                <a class="btn btn-menu-inicio" href="{% url 'inicio' %}">
-                  <img class="tamano-icono" src="{% static 'img/logo_escuela.ico' %}" alt="ETN°2 Logo"/>
-                  Ir a Inicio
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle border border-black rounded" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                  Cuenta
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end txt-centrado">
+                  {% if request.user.is_authenticated %}
+                    <!--Mostrar nombre usuario logueado-->
+                    <li>
+                      <div class="">
+                        <span class="">
+                          {{ user.username | upper }}
+                        </span>
+                      </div>
+                    </li>
+                    <!--Linea divisoria-->
+                    <li><hr class="dropdown-divider"></li>
+
+                    <!--Cerrar sesion-->
+                    <li>
+                      <div class="">
+                        <a class="btn btn-danger" href="{% url 'logout' %}">🚪Cerrar sesión</a>
+                      </div>
+                    </li>
+                  {% else %}
+                    <!--Iniciar sesion-->
+                    <li>
+                      <div class="">
+                        <a class="btn btn-success" href="{% url 'signin' %}">🚪Iniciar sesión</a>
+                      </div>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+          
+            {% else %}
+            <a class="btn btn-primary btn-sm border border-black rounded" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
+              ☰ Menú
+            </a>
+            <!--Visualizador de la fecha en navbar-->
+            <div class="" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Hacé clic sobre mí para acceder al calendario!">
+              <a class="btn btn-light btn-sm letra-blanca" id="fecha-actual" href="{% url 'calendario' %}">🕒</a>
+            </div>
+            <!--Boton cuenta-->
+            <div class="">
+              <div class="btn-group">
+                <button type="button" class="btn btn-primary btn-sm dropdown-toggle border border-black rounded" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+                  Cuenta
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end txt-centrado">
+                  {% if request.user.is_authenticated %}
+                    <!--Mostrar nombre usuario logueado-->
+                    <li>
+                      <div class="">
+                        <span class="">
+                          {{ user.username | upper }}
+                        </span>
+                      </div>
+                    </li>
+                    <!--Linea divisoria-->
+                    <li><hr class="dropdown-divider"></li>
+
+                    <li>
+                      <div class="">
+                        <!--Nueva cuenta-->
+                        {% if user|has_group:"Administrador" %}
+                          <div class=""> <!--d-grid gap-2 mb-1 btn-borde-->
+                            <a class="btn btn-warning btn-sm" href="{% url 'signup' %}">➕ Nueva cuenta</a>
+                          </div>
+                        {% endif %}
+                      </div>
+                    </li>
+                    <div class="mb-2"></div>
+                    <!--Cerrar sesion-->
+                    <li>
+                      <div class="">
+                        <a class="btn btn-danger btn-sm" href="{% url 'logout' %}">🚪Cerrar sesión</a>
+                      </div>
+                    </li>
+                  {% else %}
+                    <!--Iniciar sesion-->
+                    <li>
+                      <div class="">
+                        <a class="btn btn-success" href="{% url 'signin' %}">🚪Iniciar sesión</a>
+                      </div>
+                    </li>
+                  {% endif %}
+                </ul>
+              </div>
+            </div>
+            
+            <!--Comienzo menu-->
+            <div class="offcanvas offcanvas-start bg-menu menu" tabindex="-1" id="offcanvasDarkNavbar" aria-labelledby="offcanvasDarkNavbarLabel">
+              <div class="offcanvas-header">
+                <a class="btn btn-light btn-sm border border-black rounded" data-bs-dismiss="offcanvas" aria-label="Close">
+                  ✕ Cerrar
                 </a>
               </div>
-              <!--Docente-->
-              <div class="input-group mb-1 btn-borde">
-                <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">👩🏽‍🏫</div>
-                <a class="btn btn-primary form-control" href="{% url 'gestionDocente' %}">
-                  Docentes
-                </a>
-              </div>
-              <!--Materia-->
-              <div class="input-group mb-1 btn-borde">
-                <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">📗</div>
-                <a class="btn btn-primary form-control" href="{% url 'gestionMateria' %}">
-                  Materias
-                </a>
-              </div>
-              <!--doc_mat-->
-              <div class="input-group mb-1 btn-borde">
-                <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🗃️</div>
-                <a class="btn btn-primary form-control" href="{% url 'gestionDM' %}">
-                  Materias de Docentes
-                </a>
-              </div>
-              <!--Horario-->
-              <div class="input-group mb-1 btn-borde">
-                <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🕗</div>
-                <a class="btn btn-primary form-control" href="{% url 'gestionHorario' %}">
-                  Horarios
-                </a>
-              </div>
-              <!--Clase-->
-              <div class="input-group mb-1 btn-borde">
-                <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">📚</div>
-                <a class="btn btn-primary form-control" href="{% url 'gestionClase' %}">
-                  Clases
-                </a>
-              </div>
-              <!--Curso-->
-              <div class="input-group mb-1 btn-borde">
-                <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🏫</div>
-                  <a class="btn btn-primary form-control" href="{% url 'gestionCurso' %}"> 
-                    Cursos
-                  </a>
-              </div>
-              <!--Asistencia-->
-              <div class="input-group mb-1 btn-borde">
-                <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">📆</div>
-                <a class="btn btn-success form-control" href="{% url 'en_desarrollo' %}"> <!--gestionAsistencia-->
-                  Registrar Asistencia
-                </a>
-              </div>
-              <!--Nueva cuenta-->
-              <div class="d-grid gap-2 mb-1 btn-borde">
-                <a class="btn btn-warning" href="{% url 'access_denied' %}"> <!--signup-->
-                  Crear nueva cuenta
-                </a>
-              </div>
-              <!--Ocio-->
-              <div class="input-group mb-1 btn-borde">
-                <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🎮</div>
-                <a class="btn btn-secondary form-control"  data-bs-toggle="collapse" data-bs-target="#collapseMenuOcio" aria-expanded="false" aria-controls="collapseExample">
-                  Ocio
-                </a>
-              </div>
-              <!--Collapse-->
-              <div class="collapse" id="collapseMenuOcio">
-                <div class="card card-body cuerpo-menu-ocio">
-                  <a class="btn btn-secondary btn-sm border border-black mb-1" href="{% url 'noticias' %}">
-                    📰 Noticias
-                  </a>
-                  <a class="btn btn-secondary btn-sm border border-black" href="{% url 'buscaminas' %}">
-                    🔎 Buscaminas
-                  </a>
+              <!--Contenido menu-->
+              <div class="offcanvas-body">
+                <div class="">
+                  <!--Inicio-->
+                  <div class="d-grid gap-2 mb-1">
+                    <a class="btn btn-menu-inicio" href="{% url 'inicio' %}">
+                      <img class="tamano-icono" src="{% static 'img/logo_escuela.ico' %}" alt="ETN°2 Logo"/>
+                      Ir a Inicio
+                    </a>
+                  </div>
+                  <!--Docente-->
+                  {% if user|has_group:"Administrador" or user|has_group:"Preceptor" %}
+                  <div class="input-group mb-1 btn-borde">
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">👩🏽‍🏫</div>
+                    <a class="btn btn-primary form-control" href="{% url 'gestionDocente' %}">
+                      Docentes
+                    </a>
+                  </div>
+                  {% endif %}
+                  <!--Materia-->
+                  {% if user|has_group:"Administrador" or user|has_group:"Preceptor" %}
+                  <div class="input-group mb-1 btn-borde">
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">📗</div>
+                    <a class="btn btn-primary form-control" href="{% url 'gestionMateria' %}">
+                      Materias
+                    </a>
+                  </div>
+                  {% endif %}
+                  <!--doc_mat-->
+                  <div class="input-group mb-1 btn-borde">
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🗃️</div>
+                    <a class="btn btn-primary form-control" href="{% url 'gestionDM' %}">
+                      Materias de Docentes
+                    </a>
+                  </div>
+                  <!--Horario-->
+                  {% if user|has_group:"Administrador" or user|has_group:"Preceptor" %}
+                  <div class="input-group mb-1 btn-borde">
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🕗</div>
+                    <a class="btn btn-primary form-control" href="{% url 'gestionHorario' %}">
+                      Horarios
+                    </a>
+                  </div>
+                  {% endif %}
+                  <!--Curso-->
+                  {% if user|has_group:"Administrador" or user|has_group:"Preceptor" %}
+                  <div class="input-group mb-1 btn-borde">
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🏫</div>
+                      <a class="btn btn-primary form-control" href="{% url 'gestionCurso' %}"> 
+                        Cursos
+                      </a>
+                  </div>
+                  {% endif %}
+                  <!--Clase-->
+                  {% if user|has_group:"Administrador" or user|has_group:"Preceptor" %}
+                  <div class="input-group mb-1 btn-borde">
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">📚</div>
+                    <a class="btn btn-primary form-control" href="{% url 'gestionClase' %}">
+                      Clases
+                    </a>
+                  </div>
+                  {% endif %}
+                  <!--Asistencia-->
+                  <div class="input-group mb-1 btn-borde">
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🗓️</div>
+                    <a class="btn btn-success form-control" href="{% url 'gestionAsistencia' %}">
+                      Registrar Asistencia
+                    </a>
+                  </div>
+
+                  <!--CONSULTAR REGISTROS-->
+                  <div class="input-group mb-1 btn-borde">
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">📆</div>
+                    <a class="btn btn-secondary form-control"  data-bs-toggle="collapse" data-bs-target="#collapseMenuConsultarRegistros" aria-expanded="false" aria-controls="collapseExample">
+                      Consultar registros
+                    </a>
+                  </div>
+                  <!--Collapse-->
+                  <div class="collapse" id="collapseMenuConsultarRegistros">
+                    <div class="card card-body cuerpo-menu-ocio">
+                      <a class="btn btn-secondary btn-sm border border-black mb-1" href="{% url 'consultarAsistencia' %}">
+                        👩🏽‍🏫 De un Docente
+                      </a>
+                      <a class="btn btn-secondary btn-sm border border-black" href="{% url 'verAsistencia' %}">
+                        📅 De una fecha
+                      </a>
+                    </div>
+                  </div>
+
+                  <!--Ocio-->
+                  <div class="input-group mb-1 btn-borde" hidden>
+                    <div class="input-group-text bg-dark border border-black" id="btnGroupAddon">🎮</div>
+                    <a class="btn btn-secondary form-control"  data-bs-toggle="collapse" data-bs-target="#collapseMenuOcio" aria-expanded="false" aria-controls="collapseExample">
+                      Ocio
+                    </a>
+                  </div>
+                  <!--Collapse-->
+                  <div class="collapse" id="collapseMenuOcio">
+                    <div class="card card-body cuerpo-menu-ocio">
+                      <a class="btn btn-secondary btn-sm border border-black mb-1" href="{% url 'noticias' %}">
+                        📰 Noticias
+                      </a>
+                      <a class="btn btn-secondary btn-sm border border-black" href="{% url 'buscaminas' %}">
+                        🔎 Buscaminas
+                      </a>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          {% endif %}
+            
+
+        {% else %}
+          <a class="btn btn-primary btn-sm border border-black rounded disabled">
+            ☰ Menú
+          </a>
+          <!--Visualizador de la fecha en navbar-->
+          <span class="bg-light letra-blanca p-1 rounded-1 small" id="fecha-actual">🕒</span> <!-- ms-5-->
+          <!--INICIAR SESION-->
+          <button type="button" class="btn btn-primary btn-sm dropdown-toggle border border-black rounded disabled" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
+            Cuenta
+          </button>
+        {% endif %}
+        
+        <!---->
       </div>
     </nav>
 

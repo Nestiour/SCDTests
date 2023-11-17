@@ -1,4 +1,4 @@
-{% extends "./base.html" %}
+{% extends ".\base.html" %}
 
 {% block title %}Gestion de Horarios{% endblock %}
 
@@ -6,7 +6,7 @@
 
 {% block scripts %}
     <script src="{% static 'js/general.js' %}"></script>
-    <script src="{% static 'js/eliminar.js' %}"></script>
+    <script src="{% static 'js/comprobarHoraIF.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -21,13 +21,13 @@
             <div class="modal-dialog">
                 <div class="modal-content vidrio-blur">
                     <div class="modal-header">
-                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Horario:</h4>
+                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Horario</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                 <form action="{% url 'registrarHorario' %}" method="POST">{% csrf_token %}
                     <div class="form-group mb-1"> <!--LISTA DIAS-->
-                        <select class="form-select" aria-label="Default select example" id="dia" name="dia">
+                        <select class="form-select" aria-label="Default select example" id="dia" name="dia" required>
                             <option value="" selected disabled>Seleccione un Día</option>
                             <option value="L">(L) Lunes</option>
                             <option value="M">(M) Martes</option>
@@ -41,6 +41,10 @@
                     </div>
                     <div class="form-group mb-1">
                         <input type="number" autocomplete="off" id="h_f" name="h_f" class="form-control" placeholder="Módulo de Fin" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="1" required>
+                    </div>
+                    <!-- AVISO h_f < h_i -->
+                    <div class="alert alert-danger" id="aviso-modulo" role="alert">
+                        <strong>El Módulo de Fin no puede ser menor que el Módulo de Inicio.</strong>
                     </div>
                     <div class="d-grid mt-3">
                         <button type="submit" class="btn btn-success border border-black rounded">
@@ -57,12 +61,12 @@
 <div class="">
     <div class="row">
         <div class="col mb-3">
-            <h1>Horarios registrados:</h1>
+            <h1>Horarios registrados</h1>
         </div>
         <div class="col"> <!--VISUALIZACION MENSAJES-->
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         <strong>{{ message }}</strong>
                     </div>
@@ -76,18 +80,18 @@
                 <thead>
                      <tr>
                         <th class="col txt-datos">#</th>
-                        <th class="col txt-datos" hidden>ID Horario</th>
+                        <th class="col txt-datos bg-danger" hidden>ID Horario</th>
                         <th class="col txt-datos">Día</th>
                         <th class="col txt-datos">Módulo de Inicio</th>
                         <th class="col txt-datos">Módulo de Fin</th>
-                        <th class="col txt-datos">Opciones</th>
+                        <th class="col-1 txt-datos">Opciones</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider border-light">
                     {% for h in horarios %}
                     <tr>
                         <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
-                        <td class="txt-datos txt-centrado" hidden>{{h.id_hor}}</td>
+                        <td class="txt-datos txt-centrado bg-danger" hidden>{{h.id_hor}}</td>
                         <!--<td class="txt-datos txt-centrado">{{h.dia}}</td>-->
                         {% if h.dia == "L" %}
                             <td class="txt-datos txt-centrado">Lunes</td>
@@ -114,7 +118,7 @@
                             <div class="btn-group dropstart">
                                 <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                 <ul class="dropdown-menu text-center cuerpo-menu-opciones">
-                                    <li><a href="/edicionHorario/{{h.id_hor}}" class="mb-1 dropdown-item bg-primary text-light">
+                                    <li><a href="{% url 'edicionHorario' id_hor=h.id_hor %}" class="mb-1 dropdown-item bg-primary text-light">
                                             Modificar
                                         </a>
                                     </li>
@@ -146,7 +150,7 @@
                             </div>
                             <div class="modal-footer justify-content-around">
                                     <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">No</button>
-                                    <a href="/eliminarHorario/{{h.id_hor}}" class="btn btn-danger">Si</a>
+                                    <a href="{% url 'eliminarHorario' id_hor=h.id_hor %}" class="btn btn-danger">Si</a>
                             </div>
                         </div>
                         </div>

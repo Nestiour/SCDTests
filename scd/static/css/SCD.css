@@ -28,7 +28,7 @@ td {
   background-image: url('../img/logo_escuela.png');
   background-position: right bottom;
   background-repeat: no-repeat;
-  background-size: auto 10rem;
+  background-size: auto 8.5rem;
   opacity: 0.25;
   position: fixed;
   bottom: 1rem; /* Espacio desde el borde inferior */
@@ -36,6 +36,15 @@ td {
   width: 10rem; /* Ancho del logo */
   height: 10rem; /* Altura del logo */
   z-index: -1;
+}
+.logo-escuela-login {
+  background-image: url('../img/logo_escuela.png');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7rem;
+  height: 7rem;
 }
 .tamano-icono {
   width: 1.5rem; /*25px*/
@@ -74,6 +83,11 @@ td {
   -moz-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   -o-transform: translateX(-50%);
+}
+.btn-ezq-inf-izq {
+  position: fixed;
+  bottom: 1.25rem; /*20px*/
+  left: 3rem;
 }
 .vidrio-blur {
   backdrop-filter: blur(.3rem); /*5px*/
@@ -116,14 +130,20 @@ td {
   border-radius: .3rem; /*5px*/;
 }
 .imagen-noticia {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+}
+.imagen-noticia-logo {
   margin: auto;
   width: 10rem;
   height: 10rem;
 }
 .cuerpo-noticia img {
-  max-width: 100%; /* Establece el ancho máximo como el 100% del contenedor */
+  max-width: 100%;
   max-height: 100%;
-  width: auto; /* Permite que el ancho se ajuste automáticamente para mantener la proporción */
+  width: auto;
   height: auto;
 }
 .cuerpo-noticia a {
@@ -132,13 +152,13 @@ td {
   background-color:#6c757d;
   border-color: black;
   border-radius: .3rem;
+  border-width: 1px;
+  border-style: solid;
+  text-decoration: none;
   padding-top: .05rem;
   padding-bottom: .05rem;
   padding-left: .1rem;
   padding-right: .1rem;
-  text-decoration: none;
-  border-width: 1px;
-  border-style: solid;
 }
 .cuerpo-noticia a:hover {
   color: #fff;
@@ -148,6 +168,91 @@ td {
   display: flex;
   justify-content: space-around;
 }
+.alert-docente {
+  position: fixed;
+  min-width: 17rem;
+  bottom: .25rem;
+  right: 3rem;
+  z-index: 9999; /*mostrar por encima de todo*/
+  /*padding: .25rem;
+  margin-top: .20rem;*/
+}
+.bnt-cerrar-docente {
+  padding: 0rem;
+  margin: 0rem;
+  align-self: center;
+}
+.th-asi-izq {
+  border-width: .1rem;
+  border-style: solid;
+  border-left-color: black;
+  border-right-color: rgba(0, 0, 0, 0);
+}
+/*.th-asi-der {
+  border-width: .1rem;
+  border-style: solid;
+  /*border-color: black;*/
+/*}*/
+.td-responsable {
+  border-width: 0.1rem;
+  border-style: solid;
+  border-left-color: rgba(0, 0, 0, 1);
+  border-right-color: rgba(0, 0, 0, 0);
+  /*border-width: 0.1rem;
+  border-style: solid;
+  border-color: transparent transparent transparent black;*/
+  /*border-color: black;
+  border-width: .1rem;
+  border-style: solid;
+  border-top: none;
+  border-bottom: none;
+  border-right: none;*/
+}
+.contenido-centrado {
+  position: fixed;
+  max-height: 100%;
+  margin-left: 25%;
+  height: auto;
+}
+.borde {
+  border: .06rem;
+  border-style: solid;
+  border-radius: .63rem;
+  border-color: #a76718;
+}
+.alert {
+  padding: .95rem;
+}
+.btn-info {
+  /*btn btn-light btn-sm letra-blanca*/
+  font-size: smaller;
+  border: .06rem;
+  border-style: solid;
+  border-color: black;
+  border-radius: 10rem;
+  color: black;
+  background-color: whitesmoke;
+  padding: .03rem .45rem .03rem .45rem; /*top right bottom left*/
+}
+.cuerpo-tarjeta-clase {
+  padding: .1rem;
+  width: fit-content;
+  background: #fcebd2;
+  border-color: #ee9322; /*5e5549 804a24*/
+  box-shadow: .3rem .3rem .3rem 0rem rgba(0, 0, 0, 0.25);
+}
+.card-header-tarjeta-clase {
+  background: #f7af08;
+  max-height: 5%;
+  border-bottom-color: dimgray;
+}
+
+  /* Oculta las flechas en navegadores que admiten el selector */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
 /* -------------------------------------------------------------------- FUENTES */
 h1, h2, h3, h4, h5 {
@@ -191,6 +296,12 @@ p, span {
 .bg-rojo {
   background-color: #dc3545; /*rojo danger de Bootstrap*/
 }
+.bg-amarillo {
+  background-color: #ffc107; /*amarillo warning de Bootstrap*/
+}
+.bg-cian {
+  background-color: #0ccbf0; /*cian info de Bootstrap*/
+}
 .bg-whitesmoke {
   background-color: whitesmoke;
 }
@@ -206,8 +317,29 @@ p, span {
 .celda-genero[data-genero="M"] {
   background-color: skyblue;
 }
+.celda-asistencia[data-asistencia="P"] {
+  background-color: #79AC78;
+}
+.celda-asistencia[data-asistencia="T"] {
+  background-color: #E9B824;
+}
+.celda-asistencia[data-asistencia="A"] {
+  background-color: #EF4B4B;
+}
+.cl-verde {
+  background-color: rgba(120, 172, 119, 0.5);
+}
+.cl-amarillo {
+  background-color: rgba(232, 184, 38, 0.5);
+}
+.cl-rojo {
+  background-color: rgba(240, 74, 74, 0.5);
+}
 body {
   background: whitesmoke; /*dac29c*/
+}
+tbody tr:hover {
+  background-color: #f6c88f; /*f3b669*/
 }
 thead { /*Barra tablas*/
   background-color:#be761b; /*85765f baa685 908363 998659 cc7639*/
@@ -261,14 +393,13 @@ thead { /*Barra tablas*/
   border-color: #ee9322; /*5e5549 804a24 a76718*/
   box-shadow: .63rem .63rem .63rem 0rem rgba(0, 0, 0, 0.25);
 }
-.alert-docente {
-  padding: .25rem;
-  margin-top: .20rem;
+.fecha-actual-asi {
+  background-color: white; /*#f6c88f*/
+  padding: .35rem;
+  border-radius: .2rem; /*.3rem*/
 }
-.bnt-cerrar-docente {
-  padding: 0rem;
-  margin: 0rem;
-  align-self: center;
+.modal-header h4 {
+  text-shadow: 0rem 0rem 1rem rgba(255, 255, 255, 1);
 }
 
 /* -------------------------------------------------------------------- PANTALLAS PEQUEÑAS */

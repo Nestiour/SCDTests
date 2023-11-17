@@ -35,9 +35,9 @@ def obtener_noticias_rss():
     noticias = []
     feed = feedparser.parse(url_rss)
     # Define el límite de pares clave-valor
-    limite = 5 #30
+    limite = 30 #30
     # Controla el retorno de links de imagenes (para fines de aligerar carga en test)
-    devolver_img = False
+    devolver_img = True
     # Verificar si el diccionario tiene más elementos que el límite
     if len(feed.entries) > limite:
     # Si hay más elementos que el límite, elimina los elementos adicionales

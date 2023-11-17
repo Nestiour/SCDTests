@@ -1,0 +1,210 @@
+{% extends ".\base.html" %}
+
+{% block title %}Asistencias registradas{% endblock %}
+
+{% load static %}
+
+{% load custom_filters %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+{% if asistencias %}
+
+<div class="row">
+    <div class="col-lg">
+        <h1>Asistencias registradas</h1>
+    </div>
+    
+    <!-- CUADRO DE BUSQUEDA-->
+    <div class="col-lg-3 mt-2">
+        <div class="input-group">
+            <!--<span>Seleccionar fecha:</span>-->
+            <!--<label for="fechaSelector">Seleccionar fecha:</label>-->
+            <!-- Botones de selector de fecha no tocar -->
+            <button id="btnTodasAsistencias" class="btn btn-outline-secondary">Limpiar</button> <!--type="button"-->
+            <input type="date" id="fechaSelector" class="form-control">
+            <!--<input type="date" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Fecha">-->
+            <button id="btnAsistenciasFecha" class="btn btn-outline-secondary">Buscar</button>
+            <!--<button class="btn btn-outline-secondary" type="button" id="inputGroupFileAddon04">Button</button>-->
+        </div>
+    </div>
+</div>
+
+<!---->
+
+
+<!-- Botones de selector de fecha no tocar
+<button id="btnTodasAsistencias" class="btn btn-primary">Todas las Asistencias</button>
+
+<div class="form-group">
+    <label for="fechaSelector">Seleccionar fecha:</label>
+    <input type="date" id="fechaSelector" class="form-control">
+    <button id="btnAsistenciasFecha" class="btn btn-primary">Asistencias por Fecha</button>
+    
+</div>-->
+<!-- Botones de selector de fecha -->
+
+<a href="{% url 'gestionAsistencia' %}" class="btn btn-secondary btn-ezq-inf-izq border-dark">
+    ⬅️ Volver
+</a>
+<div class="table-responsive"> <!-- COMIENZO TABLA -->
+    <div class="scroll-box">
+        <table class="table table-striped" id="tabla-registros">
+            <thead>
+                 <tr>
+                    <th class="col-1 txt-datos ordenable" data-indice="1">#</th>
+                    <th class="col txt-datos" hidden>ID Asi</th>
+                    <th class="col-3 txt-datos ordenable" data-indice="2">Docente <i class="fas fa-light fa-sort"></i></th>
+                    <th class="col txt-datos ordenable" data-indice="3">Estado <i class="fas fa-light fa-sort"></i></th>
+                    <th class="col txt-datos">Articulo</th>
+                    <th class="col txt-datos ordenable" data-indice="5">Curso <i class="fas fa-light fa-sort"></i></th>
+                    <th class="col txt-datos ordenable" data-indice="6">Especialidad <i class="fas fa-light fa-sort"></i></th>
+                    <th class="col txt-datos ordenable" data-indice="7">Módulos <i class="fas fa-light fa-sort"></i></th>
+                    {% if user|has_group:"Administrador"%}
+                        <th class="col txt-datos th-asi-izq">Responsable</th>
+                    {% endif %}
+                    <th class="col-2 txt-datos th-asi-der">Fecha y Hora</th>
+                    <!--<th class="col-1"></th>-->
+                </tr>
+            </thead>
+            <tbody class="table-group-divider border-light">
+                {% for a in asistencias %}
+                    <tr>
+                        <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
+                        <td class="txt-datos txt-centrado" hidden>{{a.id_asi}}</td>
+                        <td class="txt-datos"><strong>{{a.id_cla.id_dm.id_doc.apellido}}</strong>, {{a.id_cla.id_dm.id_doc.nombre}}</td>
+                        <td class="txt-datos txt-centrado celda-asistencia" data-asistencia="{{a.asistencia}}">{{a.asistencia}}</td>
+                        {% if a.articulo == 'Sin justificar' %}
+                            <td class="txt-datos txt-centrado">
+                                {{a.articulo}}
+                                <a href="{% url 'edicionAsistencia' id_asi=a.id_asi %}" class="btn btn-sm btn-secondary border-dark p-0 px-1">Editar</a>    
+                            </td>
+                        {% else %}
+                        <td class="txt-datos txt-centrado">{{a.articulo}}</td>
+                        {% endif %}
+                        {% if a.id_cla %}
+                            <td class="txt-datos txt-centrado"> <!--CURSO-->
+                                {{a.id_cla.id_cur.anio}}° {{a.id_cla.id_cur.division}}°
+                            </td>
+                            <td class="txt-datos"> <!--ESPECIALIDAD-->
+                                {{a.id_cla.id_cur.especialidad}}
+                            </td>
+                            <td class="txt-datos txt-centrado"> <!--MODULOS-->
+                                {{a.id_cla.id_hor.h_i}}° - {{a.id_cla.id_hor.h_f}}°
+                            </td>
+                        {% else %}
+                            <td class="txt-datos txt-centrado">-</td>
+                        {% endif %}
+                        {% if user|has_group:"Administrador"%}
+                            <td class="txt-datos td-responsable">{{a.responsable}}</td>
+                        {% endif %}
+                        <td class="txt-datos txt-centrado">{{a.fecha}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var btnAsistenciasHoy = document.getElementById('btnAsistenciasHoy');
+        var btnTodasAsistencias = document.getElementById('btnTodasAsistencias');
+        var btnAsistenciasFecha = document.getElementById('btnAsistenciasFecha');
+        var headersOrdenables = document.querySelectorAll('#tabla-registros thead th.ordenable');
+        var filasAsistencias = document.querySelectorAll('#tabla-registros tbody tr');
+
+        btnAsistenciasFecha.addEventListener('click', function() {
+            filtrarPorFecha();
+        });
+
+        btnTodasAsistencias.addEventListener('click', function() {
+            mostrarTodasAsistencias();
+        });
+
+        headersOrdenables.forEach(function(header) {
+            header.addEventListener('click', function() {
+                var columnaIndex = header.getAttribute('data-indice');
+                var ordenActual = header.getAttribute('data-orden') || 'asc';
+
+                var nuevoOrden = (ordenActual === 'asc') ? 'desc' : 'asc';
+                header.setAttribute('data-orden', nuevoOrden);
+
+                ordenarTabla(columnaIndex, nuevoOrden);
+            });
+        });
+
+        function filtrarPorFecha() {
+            var fechaSelector = moment(document.getElementById('fechaSelector').value);
+            filasAsistencias.forEach(function(fila) {
+                var fechaRegistro = moment(obtenerValorCelda(fila, 9), "DD MMM YYYY HH:mm"); // Formato esperado
+                if (!fechaRegistro.isSame(fechaSelector, 'day')) {
+                    fila.style.display = 'none';
+                } else {
+                    fila.style.display = '';
+                }
+            });
+        }
+
+        function mostrarTodasAsistencias() {
+            filasAsistencias.forEach(function(fila) {
+                fila.style.display = '';
+            });
+        }
+
+        function ordenarTabla(columnaIndex, orden) {
+            var filasArray = Array.from(filasAsistencias);
+            filasArray.sort(function(a, b) {
+                var valorA = obtenerValorCelda(a, columnaIndex);
+                var valorB = obtenerValorCelda(b, columnaIndex);
+
+                if (isNaN(valorA) || isNaN(valorB)) {
+                    return (orden === 'asc') ? valorA.localeCompare(valorB) : valorB.localeCompare(valorA);
+                } else {
+                    return (orden === 'asc') ? valorA - valorB : valorB - valorA;
+                }
+            });
+
+            filasAsistencias.forEach(function(fila) {
+                fila.parentNode.removeChild(fila);
+            });
+
+            filasArray.forEach(function(fila) {
+                document.querySelector('#tabla-registros tbody').appendChild(fila);
+            });
+        }
+
+        function obtenerValorCelda(fila, columnaIndex) {
+            var celda = fila.cells[columnaIndex];
+            return celda.textContent.trim();
+        }
+    });
+</script>
+
+{% else %}
+<div class="cuerpo-accounts">
+    <div class="vidrio-blur mt-5 p-5">
+        <div class="text-center">
+            <h5>Aún no se registraron asistencias.</h5>
+        </div>
+    </div>
+    <div class="mt-5 text-center">
+        <a class="btn btn-success border border-black rounded" href="{% url 'gestionAsistencia' %}">⬅️ Volver</a>
+    </div>
+</div>
+{% endif %}
+<div class="col">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-docente {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>{{ message }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,80 @@
+{% extends ".\base.html" %}
+
+{% block title %}Asistencias de Docente{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+<a href="{% url 'gestionAsistencia' %}" class="btn btn-secondary btn-ezq-inf-izq border-dark">
+    ⬅️ Volver
+</a>
+
+<div class="row align-items-center mb-3">
+    <div class="col">
+        <h1>Asistencias de Docente</h1>
+    </div>
+    <!-- CUADRO ORDEN -->
+    <div class="col-lg-3"> <!--mt-2-->
+        <span>Ordenar por:</span>
+        <form  method="POST"> 
+            <div class="input-group"> {% csrf_token %}
+                <select class="form-select" aria-label="Default select example" id="orden" name="orden">
+                    <option value="1" selected>Asistencia más reciente</option>
+                    <option value="2">Fecha de modificación</option>
+                </select>
+                <input type="submit" class="btn btn-outline-secondary" value="Ordenar"></input>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="table-responsive"> <!--COMIENZO TABLA-->
+    <div class="scroll-box">
+        <table class="table table-striped" id="tabla-registros">
+            <thead>
+                 <tr>
+                    <th class="col-1 txt-datos">#</th>
+                    <th class="col-1 txt-datos" hidden>ID</th>
+                    <th class="col txt-datos">Docente</th>
+                    <th class="col-1 txt-datos">Estado</th>
+                    <th class="col-1 txt-datos">Artículo</th>
+                    <th class="col-2 txt-datos">Curso</th>
+                    <th class="col txt-datos th-asi-izq">Responsable</th>
+                    <th class="col-2 txt-datos th-asi-der">
+                        <div class="flex-box">
+                            Fecha y Hora
+                            <!--<span class="btn-info" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Los resultados se ordenan por la última fecha de modificación.">i</span>-->
+                        </div>
+                    </th>                    
+                </tr>
+            </thead>
+            <tbody class="table-group-divider border-light">
+                {% for a in asistencias %}
+                    <tr>
+                        <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
+                        <td class="txt-datos txt-centrado" hidden>{{a.id_asi}}</td>
+                        <td class="txt-datos"><strong>{{a.id_cla.id_dm.id_doc.apellido}}</strong>, {{a.id_cla.id_dm.id_doc.nombre}}</td>
+                        <td class="txt-datos txt-centrado celda-asistencia" data-asistencia="{{a.asistencia}}">{{a.asistencia}}</td>
+                        <td class="txt-datos txt-centrado">{{a.articulo}}</td>
+                        {% if a.id_cla %}
+                            <td class="txt-datos txt-centrado">
+                                {{a.id_cla.id_cur.anio}}° {{a.id_cla.id_cur.division}}°, {{a.id_cla.id_cur.especialidad}}
+                            </td>
+                        {% else %}
+                            <td class="txt-datos txt-centrado">-</td>
+                        {% endif %}
+                        <td class="txt-datos td-responsable">{{a.responsable}}</td>
+                        <td class="txt-datos txt-centrado">{{a.fecha}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

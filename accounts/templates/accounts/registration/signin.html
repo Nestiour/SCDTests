@@ -11,6 +11,8 @@
 
 <div class="cuerpo-accounts">
     <div class="vidrio-blur p-4 mt-3">
+        <div class="logo-escuela-login mx-auto"></div> <!--Logo escuela-->
+
         <form action="{% url 'signin' %}" method="POST"> <!--/signin/-->
             {% csrf_token %}
             {% if request.GET.next %}

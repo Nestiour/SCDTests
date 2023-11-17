@@ -1,4 +1,4 @@
-{% extends "./base.html" %}
+{% extends ".\base.html" %}
 
 {% block title %}Gestion de Materias{% endblock %}
 
@@ -21,7 +21,7 @@
             <div class="modal-dialog">
                 <div class="modal-content vidrio-blur">
                     <div class="modal-header">
-                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Materia:</h4>
+                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Materia</h4>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -44,12 +44,12 @@
 <div class="">
     <div class="row">
         <div class="col mb-3">
-            <h1>Materias registradas:</h1>
+            <h1>Materias registradas</h1>
         </div>
         <div class="col"> <!--VISUALIZACION MENSAJES-->
             {% if messages %}
                 {% for message in messages %}
-                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
+                    <div class="alert {% if message.tags == 'success' %}alert-success{% elif message.tags == 'error' %}alert-danger{% elif message.tags == 'warning' %}alert-warning{% elif message.tags == 'info' %}alert-info{% endif %} alert-dismissible" role="alert">
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         <strong>{{ message }}</strong>
                     </div>
@@ -62,10 +62,10 @@
             <table class="table table-striped">
                 <thead>
                      <tr>
-                        <th class="col txt-datos">#</th>
+                        <th class="col-1 txt-datos">#</th>
                         <th class="col txt-datos" hidden>ID Materia</th>
                         <th class="col txt-datos">Nombre</th>
-                        <th class="col txt-datos">Opciones</th>
+                        <th class="col-1 txt-datos">Opciones</th>
                     </tr>
                 </thead>
                 <tbody class="table-group-divider border-light">
@@ -78,7 +78,7 @@
                             <div class="btn-group dropstart">
                                 <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
                                 <ul class="dropdown-menu text-center cuerpo-menu-opciones">
-                                    <li><a href="/edicionMateria/{{m.id_mat}}" class="mb-1 dropdown-item bg-primary text-light">
+                                    <li><a href="{% url 'edicionMateria' id_mat=m.id_mat %}" class="mb-1 dropdown-item bg-primary text-light">
                                             Modificar
                                         </a>
                                     </li>
@@ -110,7 +110,7 @@
                             </div>
                             <div class="modal-footer justify-content-around">
                                     <button type="button" class="btn btn-secondary px-5" data-bs-dismiss="modal">No</button>
-                                    <a href="/eliminarMateria/{{m.id_mat}}" class="btn btn-danger">Si</a>
+                                    <a href="{% url 'eliminarMateria' id_mat=m.id_mat %}" class="btn btn-danger">Si</a> <!--href="/eliminarMateria/{{m.id_mat}}"-->
                             </div>
                         </div>
                         </div>
