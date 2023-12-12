@@ -13,17 +13,27 @@
     <div class="vidrio-blur p-4 mt-3">
         <div class="logo-escuela-login mx-auto"></div> <!--Logo escuela-->
 
-        <form action="{% url 'signin' %}" method="POST"> <!--/signin/-->
+        <form action="{% url 'signin' %}" method="POST">
             {% csrf_token %}
             {% if request.GET.next %}
                 <input type="hidden" name="next" value="{{ request.GET.next }}">
             {% endif %}
             {% for field in form %}
-                {{ field.label_tag }}
-                <div class="mb-2">
-                    {{ field }}
-                </div>
+                {% if field.name == 'password' %}
+                    {{ field.label_tag }}
+                    <div class="input-group mb-3">
+                        {{ field }}
+                        <button toggle="#id_password" class="btn btn-outline-secondary bi bi-eye-fill toggle-password" type="button"></button>
+                    </div>
+                {% else %}
+                    {{ field.label_tag }}
+                    <div class="mb-2 position-relative">
+                        {{ field }}            
+                    </div>
+                {% endif %}
+                
             {% endfor %}
+
             <!--BOTONES-->
             <div class="d-grid mt-4 mb-2">
                 <button type="submit" class="btn btn-success border border-black rounded">Ingresar</button>

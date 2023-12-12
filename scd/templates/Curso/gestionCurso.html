@@ -1,4 +1,4 @@
-{% extends ".\base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Gestion de Cursos{% endblock %}
 
@@ -7,6 +7,8 @@
 {% block scripts %}
     <script src="{% static 'js/general.js' %}"></script>
     <script src="{% static 'js/eliminar.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static 'js/filtroCurso.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -77,15 +79,23 @@
     </div>
     <div class="table-responsive"> <!--COMIENZO TABLA-->
         <div class="scroll-box">
-            <table class="table table-striped">
+            <table class="table table-striped" id="tabla-curso-registros">
                 <thead>
                      <tr>
                         <th class="col txt-datos">#</th>
                         <th class="col txt-datos" hidden>ID Curso</th>
-                        <th class="col txt-datos">Año</th>
-                        <th class="col txt-datos">División</th>
-                        <th class="col txt-datos">Especialidad</th>
-                        <th class="col txt-datos">Turno</th>
+                        <th class="col txt-datos">Año
+                            </br><input type="text" id="cuadro-busqueda-cur-anio" class="form-control" placeholder="Buscar por año">
+                            </th>
+                        <th class="col txt-datos">División
+                            </br><input type="text" id="cuadro-busqueda-cur-div" class="form-control" placeholder="Buscar por division">
+                            </th>
+                        <th class="col txt-datos">Especialidad
+                            </br><input type="text" id="cuadro-busqueda-cur-esp" class="form-control" placeholder="Buscar por especialidad">
+                            </th>
+                        <th class="col txt-datos">Turno
+                            </br><input type="text" id="cuadro-busqueda-cur-tur" class="form-control" placeholder="Buscar por turno">
+                            </th>
                         <th class="col-1 txt-datos">Opciones</th>
                     </tr>
                 </thead>

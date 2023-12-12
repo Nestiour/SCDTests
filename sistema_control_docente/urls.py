@@ -30,12 +30,14 @@ urlpatterns = [
     path('access_denied/', views.access_denied, name='access_denied'),
     path('buscaminas/', views.buscaminas, name='buscaminas'),
     path('noticias/', views.noticias, name='noticias'),
+    path('ayuda/', views.ayuda, name='ayuda'),
     # Curso
     path('gestion/Curso/', views.gestionCurso, name='gestionCurso'),
     path('registrar/Curso/', views.registrarCurso, name='registrarCurso'),
     path('eliminar/Curso/<id_cur>', views.eliminarCurso, name='eliminarCurso'),
     path('edicion/Curso/<id_cur>', views.edicionCurso, name='edicionCurso'),
     path('editar/Curso/', views.editarCurso, name='editarCurso'),
+    path('horario/Curso/<id_cur>', views.horarioCurso, name='horarioCurso'),
     # Docente
     path('gestion/Docente/', views.gestionDocente, name='gestionDocente'),
     path('registrar/Docente/', views.registrarDocente, name='registrarDocente'),

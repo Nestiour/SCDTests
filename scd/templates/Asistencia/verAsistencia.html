@@ -1,4 +1,4 @@
-{% extends ".\base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Asistencias registradas{% endblock %}
 
@@ -56,18 +56,19 @@
         <table class="table table-striped" id="tabla-registros">
             <thead>
                  <tr>
-                    <th class="col-1 txt-datos ordenable" data-indice="1">#</th>
+                    <th class="col txt-datos ordenable" data-indice="1"># <i class="fas fa-light fa-sort"></th>
                     <th class="col txt-datos" hidden>ID Asi</th>
                     <th class="col-3 txt-datos ordenable" data-indice="2">Docente <i class="fas fa-light fa-sort"></i></th>
-                    <th class="col txt-datos ordenable" data-indice="3">Estado <i class="fas fa-light fa-sort"></i></th>
-                    <th class="col txt-datos">Articulo</th>
-                    <th class="col txt-datos ordenable" data-indice="5">Curso <i class="fas fa-light fa-sort"></i></th>
-                    <th class="col txt-datos ordenable" data-indice="6">Especialidad <i class="fas fa-light fa-sort"></i></th>
-                    <th class="col txt-datos ordenable" data-indice="7">Módulos <i class="fas fa-light fa-sort"></i></th>
+                    <th class="col-1 txt-datos">Fecha</th>
+                    <th class="col txt-datos ordenable" data-indice="4">Estado <i class="fas fa-light fa-sort"></i></th>
+                    <th class="col-1 txt-datos">Articulo</th>
+                    <th class="col txt-datos ordenable" data-indice="6">Curso <i class="fas fa-light fa-sort"></i></th>
+                    <th class="col txt-datos ordenable" data-indice="7">Especialidad <i class="fas fa-light fa-sort"></i></th>
+                    <th class="col txt-datos ordenable" data-indice="8">Módulos <i class="fas fa-light fa-sort"></i></th>
                     {% if user|has_group:"Administrador"%}
-                        <th class="col txt-datos th-asi-izq">Responsable</th>
+                        <th class="col-2 txt-datos th-asi-izq">Última modificación</th>
+                        <th class="col txt-datos th-asi-der">Responsable</th>
                     {% endif %}
-                    <th class="col-2 txt-datos th-asi-der">Fecha y Hora</th>
                     <!--<th class="col-1"></th>-->
                 </tr>
             </thead>
@@ -77,6 +78,7 @@
                         <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
                         <td class="txt-datos txt-centrado" hidden>{{a.id_asi}}</td>
                         <td class="txt-datos"><strong>{{a.id_cla.id_dm.id_doc.apellido}}</strong>, {{a.id_cla.id_dm.id_doc.nombre}}</td>
+                        <td class="txt-datos txt-centrado">{{a.fecha}}</td>
                         <td class="txt-datos txt-centrado celda-asistencia" data-asistencia="{{a.asistencia}}">{{a.asistencia}}</td>
                         {% if a.articulo == 'Sin justificar' %}
                             <td class="txt-datos txt-centrado">
@@ -84,7 +86,7 @@
                                 <a href="{% url 'edicionAsistencia' id_asi=a.id_asi %}" class="btn btn-sm btn-secondary border-dark p-0 px-1">Editar</a>    
                             </td>
                         {% else %}
-                        <td class="txt-datos txt-centrado">{{a.articulo}}</td>
+                            <td class="txt-datos txt-centrado">{{a.articulo}}</td>
                         {% endif %}
                         {% if a.id_cla %}
                             <td class="txt-datos txt-centrado"> <!--CURSO-->
@@ -100,9 +102,9 @@
                             <td class="txt-datos txt-centrado">-</td>
                         {% endif %}
                         {% if user|has_group:"Administrador"%}
-                            <td class="txt-datos td-responsable">{{a.responsable}}</td>
+                            <td class="txt-datos txt-centrado td-responsable">{{a.modificacion}}</td>
+                            <td class="txt-datos">{{a.responsable}}</td>
                         {% endif %}
-                        <td class="txt-datos txt-centrado">{{a.fecha}}</td>
                     </tr>
                 {% endfor %}
             </tbody>
@@ -141,7 +143,9 @@
         function filtrarPorFecha() {
             var fechaSelector = moment(document.getElementById('fechaSelector').value);
             filasAsistencias.forEach(function(fila) {
-                var fechaRegistro = moment(obtenerValorCelda(fila, 9), "DD MMM YYYY HH:mm"); // Formato esperado
+                var fechaString = obtenerValorCelda(fila, 2);
+                var fechaFormateada = moment(fechaString, "DD MM YYYY HH:mm").format("DD MMM YYYY");
+                var fechaRegistro = moment(fechaFormateada, "DD MMM YYYY");
                 if (!fechaRegistro.isSame(fechaSelector, 'day')) {
                     fila.style.display = 'none';
                 } else {

@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}Horario{% endblock %}
+
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'js/general.js' %}"></script>
+{% endblock %}
+
+{% block body %}
+
+<style>
+    table {
+    border-collapse: collapse;
+    width: 100%;
+    }
+
+    table, th, td {
+    border: 1px solid black;
+    }
+
+    th, td {
+    padding: 15px;
+    text-align: center;
+    }
+
+    th {
+    background-color: #f2f2f2;
+    }
+</style>
+
+{% for c in clase %}
+<p>{{c}}</p>
+<!--<p>{{c.id_dm.id_mat.nombre}}</p>-->
+{% endfor %}
+
+{% if clase %}
+
+<table>
+        <tr>
+        <th></th>
+        <th>Lunes</th>
+        <th>Martes</th>
+        <th>Miércoles</th>
+        <th>Jueves</th>
+        <th>Viernes</th>
+        </tr>
+
+        <tr>
+        <td>1°</td> 
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>2°</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>3°</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>4°</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>5°</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>6°</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>7°</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>8°</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+</table>
+
+
+<!--<table>
+    <tr>
+    <th></th>
+    <th>1°</th>
+    <th>2°</th>
+    <th>3°</th>
+    <th>4°</th>
+    <th>5°</th>
+    <th>6°</th>
+    <th>7°</th>
+    <th>8°</th>
+    </tr>
+
+        <tr>
+        <td>Lunes</td> 
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>Martes</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>Miércoles</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>Jueves</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+
+        <tr>
+        <td>Viernes</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        </tr>
+</table>-->
+{% else %}
+    <div class="cuerpo-accounts">
+        <div class="vidrio-blur mt-5 p-5">
+            <div class="text-center">
+                <h1>Sin Horario 😕</h1>
+                </br>
+                <p>Este Curso no tiene un Horario asociado</p>
+                <p>Para solucionarlo, cree una Clase con dicho Curso y un Horario.</p>
+            </div>
+        </div>
+        <div class="mt-5 text-center">
+            <a class="btn btn-success border-black" href="{% url 'inicio' %}">Volver ⬅</a>
+        </div>
+    </div>
+{% endif %}
+
+{% endblock %}

@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function validarNumero(event) {
         var valor = event.target.value;
         // Utilizar una expresión regular para permitir solo dígitos del 1 al 7
-        var esNumeroValido = /^[1-7]$/.test(valor);
+        var esNumeroValido = /^[1-8]$/.test(valor);
 
         if (!esNumeroValido) {
             // Si el número ingresado no es válido, eliminar el último carácter
@@ -57,6 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Función para verificar si un número es válido (entre 1 y 7)
     function validarIngreso(numero) {
-        return /^[1-7]$/.test(numero);
+        return /^[1-8]$/.test(numero);
     }
 });

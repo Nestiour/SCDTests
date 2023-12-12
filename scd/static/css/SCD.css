@@ -1,11 +1,15 @@
 /*Todas las medidas en rem estan basadas en el tamaño de fuente por defecto: 16px*/
-
 body {
-  min-height: 100vh;
+  min-height: 100vh; /*100vh*/
   background-size: cover;
   background-position: center;
+  user-select: none; /* deshablitar resaltado de texto con doble click */
 }
-.margen-body { /*Demás estilos en "PANTALLAS PEQUEÑAS"*/
+a {
+  text-decoration: none;
+  color: inherit;
+}
+.margen-body { /*Demas estilos en "PANTALLAS PEQUEÑAS"*/
   margin-left: 3rem; /*equivale a mx-5 de Bootstrap*/
   margin-right: 3rem;
   margin-top: 1rem; /*equivale a mt-3 de Bootstrap*/
@@ -58,7 +62,7 @@ td {
 }
 .cuerpo-accounts {
   margin: 0 auto;
-  width: 50vw;
+  width: 40vw;
   padding-top: 1rem;
 }
 /*.largo-completo {
@@ -78,11 +82,16 @@ td {
   position: fixed;
   bottom: 1.25rem; /*20px*/
   left: 50%;
+  box-shadow: 0rem .5rem .5rem 0rem rgba(0, 0, 0, 0.25);
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -moz-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   -o-transform: translateX(-50%);
+  
+}
+.boton-registrar:hover {
+  box-shadow: 0rem .5rem 1rem 0rem rgba(0, 0, 0, .9);
 }
 .btn-ezq-inf-izq {
   position: fixed;
@@ -90,15 +99,18 @@ td {
   left: 3rem;
 }
 .vidrio-blur {
-  backdrop-filter: blur(.3rem); /*5px*/
+  /*backdrop-filter: blur(.3rem); /*5px*/
   border: .06rem; /*1px*/
   border-style: solid;
   border-radius: .63rem; /*10px*/
-  /*Colores en "COLORES"*/
+  /*background: rgba(215, 215, 215, .5); /*, , , .5*/
+  background: white;
+  border-color: #a76718; /*5e5549 804a24*/
+  box-shadow: .63rem .63rem .63rem 0rem rgba(0, 0, 0, 0.25);
 }
 /* --- Cuadros con barra de desplazamiento --- */
 .scroll-box {
-  max-height: 33rem; /*Altura maxima de los cuadros 525px*/
+  max-height: 33rem; /*33rem Altura maxima de los cuadros 525px*/
   overflow-y: auto; /*o scroll*/
 } /* --- */
 .offcanvas-noticia {
@@ -107,7 +119,7 @@ td {
   min-height: 31rem; /*500px*/
 }
 /* --- ACCOUNTS --- */
-#id_username, #id_password, #id_password1, #id_password2, #id_email, #id_new_password1, #id_new_password2 {
+#id_username, #id_password1, #id_password2, #id_email, #id_new_password1, #id_new_password2 { /*#id_password*/
   border: .06rem; /*1px*/
   border-style: solid;
   border-radius: .3rem; /*5px*/
@@ -234,59 +246,130 @@ td {
   background-color: whitesmoke;
   padding: .03rem .45rem .03rem .45rem; /*top right bottom left*/
 }
-.cuerpo-tarjeta-clase {
+.cuerpo-tarjeta-curso {
   padding: .1rem;
-  width: fit-content;
-  background: #fcebd2;
-  border-color: #ee9322; /*5e5549 804a24*/
+  width: 13%; /*fit-content*/
+  /*max-width: 13%;*/
+  background: white; /*fcebd2*/
+  border-color: dimgrey; /*5e5549 804a24*/
   box-shadow: .3rem .3rem .3rem 0rem rgba(0, 0, 0, 0.25);
+  animation: fadeOut .1s ease-in-out;
 }
-.card-header-tarjeta-clase {
-  background: #f7af08;
-  max-height: 5%;
+.cuerpo-tarjeta-curso:hover {
+  box-shadow: none;
+  border-color: #ee9322;
+  animation: fadeIn .1s ease-in-out; /* Nombre de la animación, duración, y función de temporización */
+}
+.card-header-tarjeta-curso {
+  max-height: 15%;
   border-bottom-color: dimgray;
 }
+.card-header-tarjeta-curso[data-especialidad="Básico"] {
+  background: grey;
+}
+.card-header-tarjeta-curso[data-especialidad="Informática"] {
+  background: #79AC78;
+}
+.card-header-tarjeta-curso[data-especialidad="Economía"] {
+  background: #E9B824; /*f7af08*/
+}
+/* Oculta las flechas en navegadores que admiten el selector */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+/* contraseña en login */
+.password-container{
+  width: 400px;
+  position: relative;
+}
+.password-container input[type="password"],
+.password-container input[type="text"]{
+  width: 100%;
+  padding: 12px 36px 12px 12px;
+  box-sizing: border-box;
+}
+.fa-eye{
+  position: absolute;
+  top: 28%;
+  right: 4%;
+  cursor: pointer;
+  color: lightgray;
+}
 
-  /* Oculta las flechas en navegadores que admiten el selector */
-  input[type="number"]::-webkit-inner-spin-button,
-  input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-  }
-
-/* -------------------------------------------------------------------- FUENTES */
-h1, h2, h3, h4, h5 {
-  font-family:'Segoe UI';
-  color: black;
+/*.btn-ayuda {
+  /*font-size: 3.5rem;*/
+  /*position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  /*border: .09rem; /*.06rem*/
+  /*border-style: solid;
+  border-color: black;
+  border-radius: 100%;*/
+  /*color: white;
+  background-color: rgba(238, 147, 34, 1);*/
+  /*padding: 0rem .75rem;
+  box-shadow: .5rem .5rem 0rem 0rem rgba(0, 0, 0, 0.25);*/
+  /*padding: .5rem;*/
+  /*padding: .03rem .45rem .03rem .45rem; /*top right bottom left*/
+/*}*/
+.circulo-ayuda {
+  position: fixed;
+  bottom: 1.5rem;
+  right: .75rem;
+  z-index: 9998;
+  width: 4rem; /* Ajusta el tamaño según tus necesidades */
+  height: 4rem; /* Asegúrate de que el ancho y el alto sean iguales */
+  background-color: #ee9322; /* Color de fondo del círculo */
+  border-radius: 50%; /* Hace que el borde sea redondeado, creando un círculo */
+  box-shadow: .3rem .3rem .5rem 0rem rgba(0, 0, 0, 0.5);
 }
-p, span {
-  font-family:'Segoe UI';
-  color: black;
-}
-.letra-blanca {
-  font-family:'Segoe UI';
-  color: black;
-}
-.letra-negra {
-  font-family:'Segoe UI';
+.txt-ayuda {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 9999;
+  font-size: 3.5rem;
   color: white;
+  background-color: rgba(238, 147, 34, 0);
+  transition: color 0.1s ease-in-out, background-color 0.1s ease-in-out;
 }
-.txt-btn-menu-b {
-  font-family:'Segoe UI';
+.txt-ayuda:hover {
+  color: #808080;  
+}
+/**/
+.ordenable:hover {
+  background-color: orange;
+}
+.btn {
+  background-color: white;
+  color: black;
+  border: .06rem;
+  border-style: solid;
+  border-color: black;
+  border-radius: .3rem;
+}
+.btn:hover {
+  background-color: #7a7a7a;
   color: white;
+  border: .06rem;
+  border-style: solid;
+  border-color: black;
+  border-radius: .3rem;
 }
-.txt-btn-menu-n {
-  font-family:'Segoe UI';
-  color: black;
+.btn:active {
+  background-color: #ee9322;
+  color: white;
+  border: .06rem;
+  border-style: solid;
+  border-color: black;
+  border-radius: .3rem;
 }
-.txt-datos {
-  font-family:'Segoe UI';
-  color: black;
-}
-.form-titulo {
-  text-orientation: upright;
-  color: black;
-  -webkit-text-orientation: upright;
+.modal-body {
+  background-color: whitesmoke;
+  border-radius: .6rem;
 }
 
 /* -------------------------------------------------------------------- COLORES */
@@ -342,23 +425,17 @@ tbody tr:hover {
   background-color: #f6c88f; /*f3b669*/
 }
 thead { /*Barra tablas*/
-  background-color:#be761b; /*85765f baa685 908363 998659 cc7639*/
-}
-.vidrio-blur {
-  background: rgba(215, 215, 215, .5);
-  border-color: #a76718; /*5e5549 804a24*/
-  box-shadow: .63rem .63rem .63rem 0rem rgba(0, 0, 0, 0.25);
+  background-color: #ee9322; /*be761b 85765f baa685 908363 998659 cc7639*/
 }
 .btn-menu-inicio {
   color: black;
-  background-color:#ee9322; /*847552 FF9447*/
+  background-color:#ee9322; /*847552 FF9447 8f5814 5f4b00 cc7639*/
   border-color: black;
   border-radius: .3rem; /*5px*/
 }
 .btn-menu-inicio:hover {
   color: white;
-  border-color: white;
-  background-color: #8f5814; /*5f4b00 cc7639*/
+  background-color: #8f5814;
 }
 /* --- BASE --- */
 .bg-marron {
@@ -371,7 +448,7 @@ thead { /*Barra tablas*/
   background: #3b2e00;
 }
 .bg-menu {
-  background: #774911; /*1d1700 7f4a23*/
+  background: whitesmoke; /*ee9322 774911 1d1700 7f4a23*/
 }
 .btn-menu {
   background: white;
@@ -384,14 +461,22 @@ thead { /*Barra tablas*/
 }
 /* --- */
 .cuerpo-menu-ocio {
-  background: #a76718;
-  border-color: #ee9322; /*5e5549 804a24*/
+  background: #ee9322;
+  border-color: black; /*ee9322 5e5549 804a24*/
   box-shadow: .63rem .63rem .63rem 0rem rgba(0, 0, 0, 0.25);
 }
 .cuerpo-menu-opciones {
-  background: white; /*ee9322*/
-  border-color: #ee9322; /*5e5549 804a24 a76718*/
+  background: #ee9322; /*ee9322*/
+  border-color: black; /*5e5549 804a24 a76718*/
   box-shadow: .63rem .63rem .63rem 0rem rgba(0, 0, 0, 0.25);
+}
+.dropdown-item {
+  background-color: whitesmoke !important;
+  color: black !important;
+  border: .06rem; /*1px*/
+  border-style: solid;
+  border-color: black;
+  border-radius: .4rem;
 }
 .fecha-actual-asi {
   background-color: white; /*#f6c88f*/
@@ -402,7 +487,77 @@ thead { /*Barra tablas*/
   text-shadow: 0rem 0rem 1rem rgba(255, 255, 255, 1);
 }
 
-/* -------------------------------------------------------------------- PANTALLAS PEQUEÑAS */
+/* -------------------------------------------------------------------- ANIMACIONES */
+@keyframes fadeIn {
+  from {
+    box-shadow: .3rem .3rem .3rem 0rem rgba(0, 0, 0, 0.25);
+  }
+  to {
+    box-shadow: none;
+  }
+}
+@keyframes fadeOut {
+  from {
+    box-shadow: none;    
+  }
+  to {
+    box-shadow: .3rem .3rem .3rem 0rem rgba(0, 0, 0, 0.25);
+  }
+}
+/**/
+@keyframes btnAyudaA {
+  from {
+    color: white;
+  }
+  to {
+    color: #808080;
+  }
+}
+@keyframes btnAyudaB {
+  from {
+    color: #808080;
+  }
+  to {
+    color: white;
+  }
+}
+
+/* -------------------------------------------------------------------- FUENTES */
+h1, h2, h3, h4, h5 {
+  font-family:'Segoe UI';
+  color: black;
+}
+p, span {
+  font-family:'Segoe UI';
+  color: black;
+}
+.letra-blanca {
+  font-family:'Segoe UI';
+  color: black;
+}
+.letra-negra {
+  font-family:'Segoe UI';
+  color: white;
+}
+.txt-btn-menu-b {
+  font-family:'Segoe UI';
+  color: white;
+}
+.txt-btn-menu-n {
+  font-family:'Segoe UI';
+  color: black;
+}
+.txt-datos {
+  font-family:'Segoe UI';
+  color: black;
+}
+.form-titulo {
+  text-orientation: upright;
+  color: black;
+  -webkit-text-orientation: upright;
+}
+
+/* -------------------------------------------------------------------- MEDIA QUERYS */
 /* Media query para pantallas más pequeñas que 768px de ancho */
 @media (max-width: 768px) {
   .cuerpo-accounts {

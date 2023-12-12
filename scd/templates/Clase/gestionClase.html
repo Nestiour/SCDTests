@@ -1,4 +1,4 @@
-{% extends ".\base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Gestion de Clases{% endblock %}
 
@@ -7,6 +7,8 @@
 {% block scripts %}
     <script src="{% static 'js/general.js' %}"></script>
     <script src="{% static 'js/eliminar.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="{% static 'js/filtroClase.js' %}"></script>
 {% endblock %}
 
 {% block body %}
@@ -80,16 +82,26 @@
     </div>
     <div class="table-responsive"> <!--COMIENZO TABLA-->
         <div class="scroll-box">
-            <table class="table table-striped">
+            <table class="table table-striped" id="tabla-clase-registros">
                 <thead>
                      <tr>
                         <th class="col txt-datos">#</th>
                         <th class="col txt-datos" hidden>ID Clase</th>
-                        <th class="col txt-datos">Dia y Horario</th>
-                        <th class="col txt-datos">Docente</th>
-                        <th class="col txt-datos">Materia</th>
-                        <th class="col txt-datos">Curso</th>
-                        <th class="col txt-datos">Turno</th>
+                        <th class="col txt-datos">Dia y Horario
+                            </br><input type="text" id="cuadro-busqueda-clase-dia" class="form-control" placeholder="Buscar por dia">
+                        </th>
+                        <th class="col txt-datos">Docente
+                            </br><input type="text" id="cuadro-busqueda-clase-nombre" class="form-control" placeholder="Buscar por nombre">
+                        </th>
+                        <th class="col txt-datos">Materia
+                            </br><input type="text" id="cuadro-busqueda-clase-materia" class="form-control" placeholder="Buscar por materia">
+                        </th>
+                        <th class="col txt-datos">Curso
+                            </br><input type="text" id="cuadro-busqueda-clase-curso" class="form-control" placeholder="Buscar por curso">
+                        </th>
+                        <th class="col txt-datos">Turno
+                            </br><input type="text" id="cuadro-busqueda-clase-turno" class="form-control" placeholder="Buscar por turno">
+                        </th>
                         <th class="col-1 txt-datos">Opciones</th>
                     </tr>
                 </thead>

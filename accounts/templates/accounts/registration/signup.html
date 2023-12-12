@@ -4,7 +4,6 @@
 
 {% block content %}
 
-<!--<h1>Sign up</h1>-->
 <div class="text-center pt-5">
     <h2>Registro</h2>
 </div>
@@ -15,21 +14,45 @@
             <form method="POST">
                 {% csrf_token %}             
                 {% for field in form %}
-                    <div class="">
-                        <div class="">
-                            {{ field.label_tag }}
+                    {% if field.name == 'group' %}
+                        <h6 class="mt-1">¿Qué rol cumplirá la cuenta?</h6> <!--{{ field.label_tag }}-->
+                        <div class="card card-body p-1 border-dark mt-0">
+                            <div class="form-check">
+                                {% for f in field %}
+                                    {{ f }}
+                                    <br>
+                                {% endfor%}
+                            </div>
+                            <!---->
+                                <!--<input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                                <label class="form-check-label" for="flexRadioDefault1">
+                                  Default radio
+                                </label>-->
                         </div>
-                        <div class="mb-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="{{ field.help_text }}">
-                            {{ field }}
-                            {% if field.errors %}
-                                <span class="text-danger small">{{ field.errors }}</span>
-                            {% endif %}
+
+                    {% elif field.name == 'password2' %}
+                        {{ field.label_tag }}
+                        {{ field }}
+                        <!--switch mostrar contraseña-->
+                        <div class="form-check form-switch form-check-reverse">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckReverse">
+                            <label class="form-check-label" for="flexSwitchCheckReverse">Mostrar contraseñas</label>
                         </div>
-                    </div>
+                    {% else %}
+                        {{ field.label_tag }}
+                        {{ field }}
+                        {% if field.errors %}
+                            <span class="text-danger small">{{ field.errors }}</span>
+                        {% endif %}
+                    {% endif %}
+                    
+                    <!--tooltip-->
+                    <!--<div class="mb-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="{{ field.help_text }}">
+                    </div>-->
                 {% endfor %}
                 <!--BOTONES-->
                 <div class="d-grid mt-4">
-                    <button type="submit" class="btn btn-success">➕ Registrar</button>
+                    <button type="submit" class="btn btn-success border-dark">➕ Registrar</button>
                 </div>
             </form>
         </div>

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-#k9(*%&olr0q_+@(@@)_6xmunapo=zj#)e+596a)&h=@c_=@+!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [] #, 'localhost', '127.0.0.1', '192.168.40.179', '170.51.184.23']
+ALLOWED_HOSTS = ['sistemacrtldocente.pythonanywhere.com'] #, 'localhost', '127.0.0.1', '192.168.40.179', '170.51.184.23']
 
 
 # Application definition
@@ -121,6 +121,7 @@ STATIC_URL = 'static/'
 """STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')"""
+STATIC_ROOT = "/home/SistemaCrtlDOcente/SCDTests/scd/static", "/home/SistemaCrtlDOcente/SCDTests/accounts/static"
 
 
 # Default primary key field type

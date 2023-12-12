@@ -25,7 +25,6 @@ class Docente(models.Model):
     provincia = models.CharField(max_length=30, blank=False)
     genero = models.CharField(max_length=1, blank=False)
     estado = models.CharField(max_length=1, blank=False)
-    #estado = models.BooleanField(default=True, blank=False)
     
     def __str__(self):
         return f"{self.id_doc} {self.cuil} {self.nombre} {self.apellido} {self.celular} {self.email}{self.domicilio}{self.localidad}{self.provincia} {self.genero} {self.estado}"
@@ -64,12 +63,12 @@ class Clase(models.Model):
 
 class Asistencia(models.Model):
     id_asi = models.AutoField(primary_key=True)
-    #fecha = models.DateField(default=timezone.now, blank=False)
-    fecha = models.DateTimeField(default=timezone.now, blank=False) # agregado: hora
+    fecha = models.DateField(default=timezone.now, blank=False)
     asistencia = models.CharField(max_length=1, blank=False)
     articulo = models.CharField(max_length=20, blank=True)
-    id_cla = models.ForeignKey(Clase, on_delete=models.CASCADE, null=True) # agregado: null
     responsable = models.CharField(max_length=100)  # nuevo
+    modificacion = models.DateTimeField(default=timezone.now, blank=False) # agregado: hora | agregado
+    id_cla = models.ForeignKey(Clase, on_delete=models.CASCADE, null=True) # agregado: null
     
     def __str__(self):
-        return f"{self.id_asi} {self.asistencia} {self.articulo} {self.fecha}"
+        return f"{self.id_asi} {self.fecha} {self.asistencia} {self.articulo} {self.responsable} {self.modificacion} {self.id_cla}"

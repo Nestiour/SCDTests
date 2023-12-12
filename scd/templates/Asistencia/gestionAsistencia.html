@@ -1,4 +1,4 @@
-{% extends ".\base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Asistencia{% endblock %}
 
@@ -13,7 +13,7 @@
 {% block body %}
 <div class="">
     <a href="{% url 'verAsistencia' %}" class="btn btn-secondary boton-registrar border-dark" hidden>
-        🗃️ Ver Asistencias <!--Saque el "hoy" de las asistencias por cpnveniencia-->
+        🗃️ Ver Asistencias <!--Saque el "hoy" de las asistencias por conveniencia-->
     </a>
     <div class="row">
         <div class="col-lg">
@@ -53,11 +53,11 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider border-light">
-                    {% for d in docentes %}
-                        <tr id="registro" data-nombre="{{ d.nombre | lower }}" data-apellido="{{ d.apellido | lower }}">
+                    {% for c in clases_unicas %}
+                        <tr id="registro" data-nombre="{{ c.id_dm.id_doc.nombre | lower }}" data-apellido="{{ c.id_dm.id_doc.apellido | lower }}">
                             <td class="txt-datos txt-centrado">{{forloop.counter}}</td>
-                            <td class="txt-datos"><strong>{{d.apellido | upper }}</strong>, {{d.nombre}}</td>
-                            <td class="txt-datos txt-centrado">{{d.cuil}}</td>
+                            <td class="txt-datos"><strong>{{c.id_dm.id_doc.apellido | upper }}</strong>, {{c.id_dm.id_doc.nombre}}</td>
+                            <td class="txt-datos txt-centrado">{{c.id_dm.id_doc.cuil}}</td>
                             <td class="txt-centrado">
                                 <div class="btn-group dropstart">
                                     <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false"></button>
@@ -66,7 +66,7 @@
                                                 Registrar estado
                                             </button>
                                         </li>
-                                        <li><a class="dropdown-item bg-secondary text-light" href="{% url 'gestionDA' id_doc=d.id_doc %}">
+                                        <li><a class="dropdown-item bg-secondary text-light" href="{% url 'gestionDA' id_doc=c.id_dm.id_doc_id %}">
                                                 Ver registros del Docente
                                             </a>
                                         </li>
@@ -77,115 +77,199 @@
                         <!--Menu desplegable del formulario-->
                         <!--formulario de registro de datos-->
                         <div class="modal fade" id="ModalFormulario{{forloop.counter}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content vidrio-blur">
-                                <div class="modal-header">
-                                    <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Asistencia</h4>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form action="{% url 'registrarAsistencia' %}" method="POST">{% csrf_token %}
-                                        <div class="form-group txt-centrado mb-1"> <!--FECHA-->
-                                            <span class="fecha-actual-asi" id="fecha-actual" readonly></span>
-                                        </div>
-                                        <div class="form-group mb-3 txt-centrado"> <!--NOMBRE-->
-                                            <span class="fecha-actual-asi"><u><strong>{{d.apellido | upper }}</strong>, {{d.nombre}}</u></span>
-                                        </div>
-                                        <div class="form-group mb-1"> <!--LISTA ASISTENCIA-->
-                                            <select class="form-select asistencia" aria-label="Default select example" id="asistencia" name="asistencia">
-                                                <option value="P" selected class="cl-verde">Estado: P (Presente)</option>
-                                                <option value="T" class="cl-amarillo"> T (Tardanza)</option>
-                                                <option value="A" class="cl-rojo">A (Ausente)</option>
-                                            </select>
-                                        </div>
-                                        <!--LISTA CLASES-->
-                                        {% if clases %}
-                                            <div class="form-group clases-container mb-1" id="clases-container" style="display: block;"> <!--LISTA CLASES-->
-                                                <div data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Estas son las clases correspondientes a este día.">
-                                                    <select class="form-select id_cla" aria-label="Default select example" id="id_cla" name="id_cla">
-                                                        <option value="" selected disabled>Seleccione una Clase</option>
-                                                        {% for c in clases %}
-                                                            <option value="{{c.id_cla}}">{{c.id_cur.anio}}° {{c.id_cur.division}}° {{c.id_cur.especialidad}}, {{c.id_cur.turno}}. Dia: {{c.id_hor.dia}}, {{c.id_hor.h_i}}° - {{c.id_hor.h_f}}° mod. Prof.: {{c.id_dm.id_doc.apellido}}</option>
-                                                        {% endfor %}
-                                                    </select>
+                            <div class="modal-dialog">
+                                <div class="modal-content vidrio-blur">
+                                    <div class="modal-header">
+                                        <h4 class="modal-title fs-5" id="exampleModalLabel">Registrar Asistencia</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{% url 'registrarAsistencia' %}" method="POST">{% csrf_token %}
+                                            <!--<div class="form-group txt-centrado mb-1">
+                                                <span class="fecha-actual-asi" id="fecha-actual" readonly></span>
+                                            </div>-->
+                                            <div class="form-group mb-3 txt-centrado"> <!--NOMBRE-->
+                                                <h4><strong>{{c.id_dm.id_doc.apellido | upper }}</strong>, {{c.id_dm.id_doc.nombre}}</h4> <!--class="fecha-actual-asi"-->
+                                            </div>
+                                            <!---->
+
+                                            <div class="form-group mb-1">
+                                                <input type="date" id="fecha" name="fecha" class="form-control fecha">
+                                            </div>
+
+                                            <!---->
+                                            <div class="form-group mb-1"> <!--LISTA ASISTENCIA-->
+                                                <select class="form-select asistencia" aria-label="Default select example" id="asistencia" name="asistencia">
+                                                    <option value="P" selected class="cl-verde">Estado: P (Presente)</option>
+                                                    <option value="T" class="cl-amarillo"> T (Tardanza)</option>
+                                                    <option value="A" class="cl-rojo">A (Ausente)</option>
+                                                </select>
+                                            </div>
+                                            <!--LISTA CLASES-->
+                                            {% if clases %}
+                                                <!--Si el docente solo tiene una clase
+                                                        que esa clase sea la unica <option></option> que se pueda seleccionar, y este seleccionada por deefecto
+                                                    Sino
+                                                        que aparezcan solo sus clases 
+                                                    Notas: el docente tiene un CUIL unico, si es necesario se puede usar-->
+                                                    <div class="form-group clases-container mb-1" id="clases-container" style="display: block;"> <!--LISTA CLASES-->
+                                                        <!--<div data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="Estas son las clases correspondientes a este día.">-->
+                                                            <select class="form-select id_cla" aria-label="Default select example" id="id_cla" name="id_cla">
+                                                                <option value="" selected disabled>Seleccione una Clase</option>
+                                                                {% for c in clases %}
+                                                                    <option value="{{c.id_cla}}">{{c.id_cur.anio}}° {{c.id_cur.division}}° {{c.id_cur.especialidad}}, {{c.id_cur.turno}}. Dia: {{c.id_hor.dia}}, {{c.id_hor.h_i}}° - {{c.id_hor.h_f}}° mod. Prof.: {{c.id_dm.id_doc.apellido}}</option>
+                                                                {% endfor %}
+                                                            </select>
+                                                        <!--</div>-->
+                                                    </div>
+                                            {% else %}
+                                                <div class="form-group "> <!--aviso-->
+                                                    <input type="text" class="form-control border-danger" placeholder="No hay Clases registradas para este día." disabled>
                                                 </div>
+                                            {% endif %}
+                                            <!--ARTICULO-->
+                                            <div class="form-group articulo-container" id="articulo-container" style="display: none;"> <!--LISTA ARTS-->
+                                                <select class="form-select articulo border-danger" aria-label="Default select example" id="articulo" name="articulo">
+                                                    <!--<option value="-" selected disabled>Seleccione un Artículo</option>-->
+                                                    <option value="Sin justificar" selected>Sin justificar</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2 A">2 A</option>
+                                                    <option value="2 B">2 B</option>
+                                                    <option value="2 C">2 C</option>
+                                                    <option value="3">3</option>
+                                                    <option value="4">4</option>
+                                                    <option value="5">5</option>
+                                                    <option value="6">6</option>
+                                                    <option value="7">7</option>
+                                                    <option value="8 A">8 A</option>
+                                                    <option value="8 B">8 B</option>
+                                                    <option value="9">9</option>
+                                                    <option value="10">10</option>
+                                                    <option value="11">11</option>
+                                                    <option value="12">12</option>
+                                                    <option value="13">13</option>
+                                                    <option value="14 A">14 A</option>
+                                                    <option value="14 B">14 B</option>
+                                                    <option value="14 C">14 C</option>
+                                                    <option value="14 D">14 D</option>
+                                                    <option value="14 E">14 E</option>
+                                                    <option value="15">15</option>
+                                                    <option value="16">16</option>
+                                                    <option value="17">17</option>
+                                                    <option value="18 A">18 A</option>
+                                                    <option value="18 B">18 B</option>
+                                                    <option value="19">19</option>
+                                                    <option value="20 A">20 A</option>
+                                                    <option value="20 B">20 B</option>
+                                                    <option value="20 C">20 C</option>
+                                                    <option value="21">21</option>
+                                                    <option value="22">22</option>
+                                                    <option value="23">23</option>
+                                                    <option value="24 A">24 A</option>
+                                                    <option value="24 B">24 B</option>
+                                                    <option value="24 C">24 C</option>
+                                                    <option value="25">25</option>
+                                                    <option value="26 A">26 A</option>
+                                                    <option value="26 B">26 B</option>
+                                                    <option value="26 C">26 C</option>
+                                                    <option value="27">27</option>
+                                                    <option value="28 A">28 A</option>
+                                                    <option value="28 B">28 B</option>
+                                                    <option value="28 C">28 C</option>
+                                                    <option value="29">29</option>
+                                                    <option value="30">30</option>
+                                                    <option value="31">31</option>
+                                                    <option value="32">32</option>
+                                                    <option value="33">33</option>
+                                                    <option value="34">34</option>
+                                                    <option value="35">35</option>
+                                                </select>
                                             </div>
-                                        {% else %}
-                                            <div class="form-group "> <!--aviso-->
-                                                <input type="text" class="form-control border-danger" placeholder="No hay Clases registradas para este día." disabled>
+                                            <div class="d-grid gap-2 pt-3">
+                                                <button type="submit" class="btn btn-success border border-black rounded">
+                                                    ➕ Registrar
+                                                </button>
                                             </div>
-                                        {% endif %}
-                                        <!--ARTICULO-->
-                                        <div class="form-group articulo-container" id="articulo-container" style="display: none;"> <!--LISTA ARTS-->
-                                            <select class="form-select articulo border-danger" aria-label="Default select example" id="articulo" name="articulo">
-                                                <!--<option value="-" selected disabled>Seleccione un Artículo</option>-->
-                                                <option value="Sin justificar" selected>Sin justificar</option>
-                                                <option value="1">1</option>
-                                                <option value="2 A">2 A</option>
-                                                <option value="2 B">2 B</option>
-                                                <option value="2 C">2 C</option>
-                                                <option value="3">3</option>
-                                                <option value="4">4</option>
-                                                <option value="5">5</option>
-                                                <option value="6">6</option>
-                                                <option value="7">7</option>
-                                                <option value="8 A">8 A</option>
-                                                <option value="8 B">8 B</option>
-                                                <option value="9">9</option>
-                                                <option value="10">10</option>
-                                                <option value="11">11</option>
-                                                <option value="12">12</option>
-                                                <option value="13">13</option>
-                                                <option value="14 A">14 A</option>
-                                                <option value="14 B">14 B</option>
-                                                <option value="14 C">14 C</option>
-                                                <option value="14 D">14 D</option>
-                                                <option value="14 E">14 E</option>
-                                                <option value="15">15</option>
-                                                <option value="16">16</option>
-                                                <option value="17">17</option>
-                                                <option value="18 A">18 A</option>
-                                                <option value="18 B">18 B</option>
-                                                <option value="19">19</option>
-                                                <option value="20 A">20 A</option>
-                                                <option value="20 B">20 B</option>
-                                                <option value="20 C">20 C</option>
-                                                <option value="21">21</option>
-                                                <option value="22">22</option>
-                                                <option value="23">23</option>
-                                                <option value="24 A">24 A</option>
-                                                <option value="24 B">24 B</option>
-                                                <option value="24 C">24 C</option>
-                                                <option value="25">25</option>
-                                                <option value="26 A">26 A</option>
-                                                <option value="26 B">26 B</option>
-                                                <option value="26 C">26 C</option>
-                                                <option value="27">27</option>
-                                                <option value="28 A">28 A</option>
-                                                <option value="28 B">28 B</option>
-                                                <option value="28 C">28 C</option>
-                                                <option value="29">29</option>
-                                                <option value="30">30</option>
-                                                <option value="31">31</option>
-                                                <option value="32">32</option>
-                                                <option value="33">33</option>
-                                                <option value="34">34</option>
-                                                <option value="35">35</option>
-                                            </select>
-                                        </div>
-                                        <div class="d-grid gap-2 pt-3">
-                                            <button type="submit" class="btn btn-success border border-black rounded">
-                                                ➕ Registrar
-                                            </button>
-                                        </div>
-                                    </form>
+                                        </form>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script>
+// Obtén todos los elementos con la clase 'fecha'
+const elementosFecha = document.querySelectorAll('.fecha');
+
+// Verifica si hay elementos
+if (elementosFecha.length > 0) {
+  // Obtén la fecha actual en el huso horario de Argentina
+  let fechaActual = new Date().toLocaleString("en-US", {timeZone: "America/Argentina/Buenos_Aires"});
+  fechaActual = new Date(fechaActual);
+
+  // Formatea la fecha al formato 'yyyy-mm-dd'
+  let formatoFecha = fechaActual.getFullYear() + '-' + ('0' + (fechaActual.getMonth()+1)).slice(-2) + '-' + ('0' + fechaActual.getDate()).slice(-2);
+
+  // Asigna la fecha actual a todos los elementos con la clase 'fecha'
+  elementosFecha.forEach(function (elemento) {
+    elemento.value = formatoFecha;
+    elemento.max = formatoFecha;
+
+    // Agrega un evento 'change' al elemento para verificar la fecha ingresada
+    elemento.addEventListener('change', function () {
+      // Obtén la fecha ingresada por el usuario
+      const fechaIngresada = new Date(elemento.value);
+
+      // Establece la hora de fechaIngresada a la misma hora que fechaActual
+      fechaIngresada.setHours(fechaActual.getHours(), fechaActual.getMinutes(), fechaActual.getSeconds(), fechaActual.getMilliseconds());
+      //Incremento la fecha ingresada ya que toma un dia anterior a la seleccionada
+      fechaIngresada.setDate(fechaIngresada.getDate() + 1)
+
+      // Verifica si la fecha ingresada es mayor o igual que la fecha actual
+      if (fechaIngresada > fechaActual || fechaIngresada.toISOString().split('T')[0] > formatoFecha) {
+        // Si es mayor, actualiza el elemento con la fecha actual
+        elemento.value = formatoFecha;
+        //alert('La fecha no puede ser mayor o igual que la fecha actual.');
+      }
+    });
+  });
+}
+
+
+
+/*// Obtén todos los elementos con la clase 'fecha'
+const elementosFecha = document.querySelectorAll('.fecha');
+
+// Verifica si hay elementos
+if (elementosFecha.length > 0) {
+  // Crea una nueva instancia de la fecha actual
+  const fechaActual = new Date();
+
+  // Obtén el formato de fecha YYYY-MM-DD
+  const formatoFecha = fechaActual.toISOString().split('T')[0];
+
+  // Asigna la fecha actual a todos los elementos con la clase 'fecha'
+  elementosFecha.forEach(function (elemento) {
+    elemento.value = formatoFecha;
+
+    // Agrega un evento 'change' al elemento para verificar la fecha ingresada
+    elemento.addEventListener('change', function () {
+      // Obtén la fecha ingresada por el usuario
+      const fechaIngresada = new Date(elemento.value);
+
+      // Verifica si la fecha ingresada es mayor que la fecha actual
+      if (fechaIngresada > fechaActual) {
+        // Si es mayor, actualiza el elemento con la fecha actual
+        elemento.value = formatoFecha;
+        //alert('La fecha no puede ser mayor o igual que la fecha actual.');
+      }
+    });
+  });
+}*/
+</script>
+
 {% endblock %}

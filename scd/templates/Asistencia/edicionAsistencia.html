@@ -1,4 +1,4 @@
-{% extends ".\base.html" %}
+{% extends "base.html" %}
 
 {% block title %}Editar Asistencia{% endblock %}
  
@@ -17,6 +17,9 @@
                     </div>
                     <div class="form-group">
                         <input type="text" id="" name="" class="form-control" value="{{asistencia.id_cla.id_dm.id_doc.apellido}}, {{asistencia.id_cla.id_dm.id_doc.nombre}}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <input type="text" id="fecha" name="fecha" class="form-control" value="Fecha: {{asistencia.fecha}}" disabled>
                     </div>
                     <div class="form-group">
                         <input type="text" id="asistencia" name="asistencia" class="form-control" value="Estado: {{asistencia.asistencia}}" disabled>
@@ -85,7 +88,7 @@
                         <input type="text" id="responsable" name="responsable" class="form-control" value="Responsable: {{asistencia.responsable}}" disabled>
                     </div>
                     <div class="form-group">
-                        <input type="text" id="fecha" name="fecha" class="form-control" value="Última modificación: {{asistencia.fecha}}" disabled>
+                        <input type="text" id="modificacion" name="modificacion" class="form-control" value="Última modificación: {{asistencia.modificacion}}" disabled>
                     </div>
                     <!--BOTONES-->
                     <div class="d-grid gap-2 py-3">

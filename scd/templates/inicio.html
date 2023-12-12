@@ -1,4 +1,4 @@
-{% extends '.\base.html' %}
+{% extends "base.html" %}
 
 {% block title %}Inicio - Sistema Control Docente{% endblock %}
 
@@ -18,12 +18,17 @@
     </div>
 
     {% if user|has_group:"Administrador" or user|has_group:"Preceptor" %}
-        <div class="row row-cols-1 row-cols-md-3 g-4 mt-5">
-            {% for c in clases %}
-                <div class="card text-center m-2 cuerpo-tarjeta-clase" style="width: 15rem;">
-                    <div class="card-header card-header-tarjeta-clase"></div>
+        <!--<div class="scroll-box">-->
+        <div class="row row-cols-1 row-cols-md-3 g-0 mt-5"> <!--row row-cols-1 row-cols-md-3 g-4 mt-5-->
+            {% for c in cursos %}
+                <div class="card text-center m-2 cuerpo-tarjeta-curso">
+                <a href="{% url 'horarioCurso' id_cur=c.id_cur %}"> <!-- -->
+                    <div class="card-header card-header-tarjeta-curso" data-especialidad="{{c.especialidad}}"></div>
                     <div class="card-body">
-                        <span class="card-title fecha-actual-asi">
+                        {{c.anio}}° {{c.division}}° {{c.especialidad}}
+                        <br>
+                        {{c.turno}}
+                        <!--<span class="card-title fecha-actual-asi">
                             <strong>
                                 {% if c.id_hor.dia == "L" %}
                                     Lunes,
@@ -46,15 +51,17 @@
                                 {% endif %}
                                 {{c.id_hor.h_i}}°- {{c.id_hor.h_f}}°
                             </strong>
-                        </span>
-                        <br>
+                        </span>-->
+                        <!--<br>
                         <span class="card-text fecha-actual-asi">
                             {{c.id_cur.anio}}° {{c.id_cur.division}}° {{c.id_cur.especialidad}}
-                        </span>
+                        </span>-->
                     </div>
-                </div>                        
+                </a>
+                </div>
             {% endfor %}
         </div>
+        <!--</div>-->
     {% endif %}
 
 <!--Mostrar a Docentes/preceptores:
